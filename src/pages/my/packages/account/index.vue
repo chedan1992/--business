@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		<uni-nav-bar color="#fff" leftIcon="arrowleft" :fixed="true" :border="false" :statusBar="true" :backgroundColor="'#FF6E44'">
+		<uni-nav-bar color="#fff" leftIcon="arrowleft" :fixed="true" @clickLeft="back" :border="false" :statusBar="true" :backgroundColor="'#FF6E44'">
 			<view class="center w-calc0">
 				<text class="colorfff">小龙坎北京路店</text>
 				<image class="w12 h8 mgl-10" src="/static/dropdown.png"></image>

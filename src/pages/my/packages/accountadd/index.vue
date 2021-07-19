@@ -1,5 +1,10 @@
 <template>
 	<view class="content">
+		<uni-nav-bar color="#fff" leftIcon="arrowleft" :fixed="true" @clickLeft="back" :border="false" :statusBar="true" :backgroundColor="'#FF6E44'">
+			<view class="center w-calc0">
+				<text class="colorfff">新增子用户</text>
+			</view>
+		</uni-nav-bar>
 		<evan-form :hide-required-asterisk="false" ref="form" :model="form" :rules="rules">
 			<view class="bg-white pdl-15">
 				<evan-form-item prop="shopName" label="店铺" :label-style="labelStyle">

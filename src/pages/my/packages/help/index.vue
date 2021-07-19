@@ -2,36 +2,23 @@
 	<view class="content">
 		<mescroll-body :ref="'mescrollRef'" @init="mescrollInit" @down="downCallback()" @up="upCallback()" :safearea="true">
 			<view>
-				<view class="lh100  bg-white pdl-30 pdr-30 borderb" @click="goislogin('packages/account/index')">
-					<view class="flex-between">
-						<view>
-							<view class="f30 pdl-14">店铺子账号管理</view>
+				<uni-collapse accordion="true">
+					<uni-collapse-item title="标题文字" size="30px">
+						<view style="padding: 30rpx;" class="f28">
+							手风琴效果
 						</view>
-						<view>
-							<uni-icons type="arrowdown" size="10"></uni-icons>
+					</uni-collapse-item>
+					<uni-collapse-item title="标题文字">
+						<view style="padding: 30rpx;" class="f28">
+							手风琴效果
 						</view>
-					</view>
-				</view>
-				<view class="lh100  bg-white pdl-30 pdr-30 borderb" @click="goislogin('packages/account/index')">
-					<view class="flex-between">
-						<view>
-							<view class="f30 pdl-14">店铺子账号管理</view>
+					</uni-collapse-item>
+					<uni-collapse-item title="标题文字">
+						<view style="padding: 30rpx;" class="f28">
+							手风琴效果
 						</view>
-						<view>
-							<uni-icons type="arrowdown" size="10"></uni-icons>
-						</view>
-					</view>
-				</view>
-				<view class="lh100  bg-white pdl-30 pdr-30 borderb" @click="goislogin('packages/account/index')">
-					<view class="flex-between">
-						<view>
-							<view class="f30 pdl-14">店铺子账号管理</view>
-						</view>
-						<view>
-							<uni-icons type="arrowdown" size="10"></uni-icons>
-						</view>
-					</view>
-				</view>
+					</uni-collapse-item>
+				</uni-collapse>
 			</view>
 		</mescroll-body>
 	</view>
@@ -112,5 +99,6 @@
 				height: 120rpx;
 			}
 		}
+
 	}
 </style>

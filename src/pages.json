@@ -81,6 +81,30 @@
 				"style": {
 					"navigationBarTitleText": "消息"
 				}
+			},
+			{
+				"path": "chongzhi/index",
+				"style": {
+					"navigationBarTitleText": "充值"
+				}
+			},
+			{
+				"path": "tixian/index",
+				"style": {
+					"navigationBarTitleText": "提现"
+				}
+			},
+			{
+				"path": "setPayPw/index",
+				"style": {
+					"navigationBarTitleText": "设置支付密码"
+				}
+			},
+			{
+				"path": "getDetail/index",
+				"style": {
+					"navigationBarTitleText": "充值／提现明细"
+				}
 			}
 		]
 	}, {

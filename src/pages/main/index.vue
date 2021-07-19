@@ -44,7 +44,7 @@
 				</view>
 				<view class="mgt-28 f24 ">账单</view>
 			</view>
-			<view class="center width3">
+			<view class="center width3" @click="goislogin('packages/chongzhi/index')">
 				<view>
 					<image class="w60 h60" src="../../static/main/tixian.png"></image>
 				</view>
@@ -56,7 +56,7 @@
 				</view>
 				<view class="mgt-28 f24 ">流水明细</view>
 			</view>
-			<view class="center width3">
+			<view class="center width3" @click="goislogin('packages/message/index')">
 				<view>
 					<image class="w60 h60" src="../../static/main/xiaoxi.png"></image>
 				</view>
