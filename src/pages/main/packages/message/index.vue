@@ -44,7 +44,7 @@
 		data() {
 			return {
 				key: '',
-				listData: []
+				listData: [],
 			}
 		},
 		onReady() {

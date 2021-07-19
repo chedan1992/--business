@@ -7,7 +7,7 @@
 				</view>
 				<view class="wordW">您有一个新订单待审核</view>
 			</view>
-			<view class="tr flex-right wordW">
+			<view class="tr flex-right wordW" @click="goislogin('packages/shop/index')">
 				<view class="wordW">小龙坎北京路店</view>
 				<view class="w12 h8 pdl-10 flex-center">
 					<image src="../../static/dropdown.png" class="w12 h8 "></image>
@@ -82,25 +82,13 @@
 			</view>
 			<view class="width2">
 				<view class="f26">
-					已完成订单
+					待审核活动
 				</view>
 				<view class="mgt-28 f36 bold">20</view>
 			</view>
 			<view class="width2">
 				<view class="f26">
-					已完成订单
-				</view>
-				<view class="mgt-28 f36 bold">20</view>
-			</view>
-			<view class="width2">
-				<view class="f26">
-					已完成订单
-				</view>
-				<view class="mgt-28 f36 bold">20</view>
-			</view>
-			<view class="width2">
-				<view class="f26">
-					已完成订单
+					进行中的活动
 				</view>
 				<view class="mgt-28 f36 bold">20</view>
 			</view>

@@ -11,7 +11,7 @@
 				</view>
 			</view>
 			<view class="">
-				<view class="lh100  bg-white pdl-30 pdr-30" @click="goislogin('pages/main/packages/shop/index')">
+				<view class="lh100  bg-white pdl-30 pdr-30" @click="goislogin('../main/packages/shop/index')">
 					<view class="flex-between borderb">
 						<view class="flex-center ">
 							<image class="w36 h36" src="../../static/my/guanli.png"></image>

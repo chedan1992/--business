@@ -3,7 +3,7 @@
         <view class="tixian">
                 <view class="tixian-left">
                     <view class="f26 color333">余额(元)</view>
-                    <view class="f36 color333 mgt-36 bold">10000.00</view>
+                    <view class="f36 color333 mgt-36 bold">100000.00</view>
                 </view>
                 <button class="btn-tixian"  @click="goislogin('../tixian/index')">我要提现</button>
         </view>

@@ -20,7 +20,7 @@
 				</view>
 			</view>
 			<view class="contenter">
-                <view class="items" v-if="activeTab==0">
+                <view class="items" v-if="activeTab === 0">
                     <view class="itemtop">
                         <img src="../static/weixin.png" class="w76 h76" />
                         <view class="w-calc76 pdl-30">
@@ -40,7 +40,7 @@
                     </view>
                     <view class="colorFF2E42 mgt-30 f24">原因：微信账户余额不足，充值失败</view>
                 </view>
-                <view class="items" v-if="activeTab==1">
+                <view class="items" v-if="activeTab === 1 ">
                     <view class="itemtop">
                         <img src="../static/weixin.png" class="w76 h76" />
                         <view class="w-calc76 pdl-30">
