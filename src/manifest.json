@@ -70,7 +70,15 @@
             "base" : ""
         },
         "devServer" : {
-            "port" : 8011
+            "port" : 8011,
+            "disableHostCheck" : true,
+            "proxy" : {
+                "/wxwebApi" : {
+                    "target" : "https://www.neibuyongde.com",
+                    "changeOrigin" : true,
+                    "secure" : false
+                }
+            }
         }
     }
 }
