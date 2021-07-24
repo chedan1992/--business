@@ -1,204 +1,241 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页,
-		{
-			"path": "pages/main/index",
-			"style": {
-				"navigationBarTitleText": "首页"
-			}
-		},{
-			"path": "pages/order/index",
-			"style": {
-				"navigationBarTitleText": "订单"
-			}
-		},{
-			"path": "pages/my/index",
-			"style": {
-				"navigationStyle": "custom",
-				"navigationBarTitleText": "我的"
-			}
-		},{
-			"path": "pages/login/index",
-			"style": {
-				"navigationBarTitleText": "授权"
-			}
-		},{
-			"path": "pages/selshop/index",
-			"style": {
-				"navigationBarTitleText": "选择店铺"
-			}
-		}
-	],
-	"subpackages": [{
-		"root": "pages/main/packages",
-		"name":"main",
-		"pages": [
-			{
-				"path": "shop/index",
-				"style": {
-					"navigationBarTitleText": "店铺管理"
-				}
-			},
-			{
-				"path": "shopadd/index",
-				"style": {
-					"navigationBarTitleText": "新增店铺"
-				}
-			},
-			{
-				"path": "active/index",
-				"style": {
-					"navigationStyle": "custom",
-					"navigationBarTitleText": "店铺活动"
-				}
-			},
-			{
-				"path": "activeadd/index",
-				"style": {
-					"navigationBarTitleText": "新增活动"
-				}
-			},
-			{
-				"path": "zhangdan/index",
-				"style": {
-					"navigationStyle": "custom",
-					"navigationBarTitleText": "我的账单"
-				}
-			},
-			{
-				"path": "zhangdanserach/index",
-				"style": {
-					"navigationBarTitleText": "账单查询"
-				}
-			},
-			{
-				"path": "liushuijilu/index",
-				"style": {
-					"navigationBarTitleText": "流水明细"
-				}
-			},
-			{
-				"path": "message/index",
-				"style": {
-					"navigationBarTitleText": "消息"
-				}
-			},
-			{
-				"path": "chongzhi/index",
-				"style": {
-					"navigationBarTitleText": "充值"
-				}
-			},
-			{
-				"path": "tixian/index",
-				"style": {
-					"navigationBarTitleText": "提现"
-				}
-			},
-			{
-				"path": "setPayPw/index",
-				"style": {
-					"navigationBarTitleText": "设置支付密码"
-				}
-			},
-			{
-				"path": "getDetail/index",
-				"style": {
-					"navigationBarTitleText": "充值／提现明细"
-				}
-			}
-		]
-	}, {
-		"root": "pages/order/packages",
-		"name":"order",
-		"pages": [
-			{
-				"path": "orderdetail/index",
-				"style": {
-					"navigationBarTitleText": "订单详情"
-				}
-			}
-		]
-	}, {
-		"root": "pages/my/packages",
-		"name": "my",
-		"pages": [
-			{
-				"path": "account/index",
-				"style": {
-					"navigationStyle": "custom",
-					"navigationBarTitleText": "店铺子账号管理"
-				}
-			},
-			{
-				"path": "accountadd/index",
-				"style": {
-					"navigationStyle": "custom",
-					"navigationBarTitleText": "新增子用户"
-				}
-			},
-			{
-				"path": "help/index",
-				"style": {
-					"navigationBarTitleText": "帮助中心"
-				}
-			},
-			{
-				"path": "phone/index",
-				"style": {
-					"navigationBarTitleText": "更换手机号"
-				}
-			},
-			{
-				"path": "phone-new/index",
-				"style": {
-					"navigationBarTitleText": "修改手机号"
-				}
-			},
-			{
-				"path": "uppwd/index",
-				"style": {
-					"navigationBarTitleText": "修改密码"
-				}
-			},
-			{
-				"path": "bind/index",
-				"style": {
-					"navigationBarTitleText": "绑定手机"
-				}
-			}
-		]
-	}],
-	"tabBar": {
-		"color": "#B2B5BB",
-		"selectedColor": "#FF6E44",
-		"backgroundColor": "#ffffff",
-		"list": [{
-			"pagePath": "pages/main/index",
-			"text": "首页",
-			"iconPath": "static/main/home1.png",
-			"selectedIconPath": "static/main/home2.png"
-		}, {
-			"pagePath": "pages/order/index",
-			"text": "订单",
-			"iconPath": "static/main/order1.png",
-			"selectedIconPath": "static/main/order2.png"
-		}, {
-			"pagePath": "pages/my/index",
-			"text": "我的",
-			"iconPath": "static/main/my1.png",
-			"selectedIconPath": "static/main/my2.png"
-		}]
-	},
-	"globalStyle": {
-		"navigationBarTitleText": "莱养你商家端",
-		"navigationBarTextStyle": "white",
-		"navigationBarBackgroundColor": "#FF6E44",
-		"backgroundColor": "#F9F9FB",
-		"app-plus": {
-			"bounce": "none" // 取消APP端iOS回弹,避免与下拉刷新冲突 (可统一配在 'globalStyle')
-		},
-		"mp-alipay": {
-			"allowsBounceVertical": "NO" // 取消支付宝和钉钉小程序的iOS回弹,避免与下拉刷新冲突 (可统一配在 'globalStyle')
-		}
-	}
+    "pages": [
+        //pages数组中第一项表示应用启动页,
+        {
+            "path": "pages/main/index",
+            "style": {
+                "navigationBarTitleText": "首页"
+            }
+        },
+        {
+            "path": "pages/order/index",
+            "style": {
+                "navigationBarTitleText": "订单"
+            }
+        },
+        {
+            "path": "pages/my/index",
+            "style": {
+                "navigationStyle": "custom",
+                "navigationBarTitleText": "我的"
+            }
+        },
+        {
+            "path": "pages/login/index",
+            "style": {
+                "navigationBarTitleText": "授权"
+            }
+        },
+        {
+            "path": "pages/selshop/index",
+            "style": {
+                "navigationBarTitleText": "选择店铺"
+            }
+        }
+    ],
+    "subpackages": [
+        {
+            "root": "pages/main/packages",
+            "name": "main",
+            "pages": [
+                {
+                    "path": "shop/index",
+                    "style": {
+                        "navigationBarTitleText": "店铺管理"
+                    }
+                },
+                {
+                    "path": "shopadd/index",
+                    "style": {
+                        "navigationBarTitleText": "新增店铺"
+                    }
+                },
+                {
+                    "path": "active/index",
+                    "style": {
+                        "navigationStyle": "custom",
+                        "navigationBarTitleText": "店铺活动"
+                    }
+                },
+                {
+                    "path": "activeadd/index",
+                    "style": {
+                        "navigationBarTitleText": "新增活动"
+                    }
+                },
+                {
+                    "path": "zhangdan/index",
+                    "style": {
+                        "navigationStyle": "custom",
+                        "navigationBarTitleText": "我的账单"
+                    }
+                },
+                {
+                    "path": "zhangdanserach/index",
+                    "style": {
+                        "navigationBarTitleText": "账单查询"
+                    }
+                },
+                {
+                    "path": "liushuijilu/index",
+                    "style": {
+                        "navigationBarTitleText": "流水明细"
+                    }
+                },
+                {
+                    "path": "message/index",
+                    "style": {
+                        "navigationBarTitleText": "消息"
+                    }
+                },
+                {
+                    "path": "chongzhi/index",
+                    "style": {
+                        "navigationBarTitleText": "充值"
+                    }
+                },
+                {
+                    "path": "tixian/index",
+                    "style": {
+                        "navigationBarTitleText": "提现"
+                    }
+                },
+                {
+                    "path": "tixianjieguo/index",
+                    "style": {
+                        "navigationBarTitleText": "提现"
+                    }
+                },
+                {
+                    "path": "setPayPw/index",
+                    "style": {
+                        "navigationBarTitleText": "设置支付密码"
+                    }
+                },
+                {
+                    "path": "getDetail/index",
+                    "style": {
+                        "navigationBarTitleText": "充值／提现明细"
+                    }
+                }
+            ]
+        },
+        {
+            "root": "pages/order/packages",
+            "name": "order",
+            "pages": [
+                {
+                    "path": "orderdetail/index",
+                    "style": {
+                        "navigationBarTitleText": "订单详情"
+                    }
+                }
+            ]
+        },
+        {
+            "root": "pages/my/packages",
+            "name": "my",
+            "pages": [
+                {
+                    "path": "account/index",
+                    "style": {
+                        "navigationStyle": "custom",
+                        "navigationBarTitleText": "店铺子账号管理"
+                    }
+                },
+                {
+                    "path": "accountadd/index",
+                    "style": {
+                        "navigationStyle": "custom",
+                        "navigationBarTitleText": "新增子用户"
+                    }
+                },
+                {
+                    "path": "help/index",
+                    "style": {
+                        "navigationBarTitleText": "帮助中心"
+                    }
+                },
+                {
+                    "path": "phone/index",
+                    "style": {
+                        "navigationBarTitleText": "更换手机号"
+                    }
+                },
+                {
+                    "path": "phone-new/index",
+                    "style": {
+                        "navigationBarTitleText": "修改手机号"
+                    }
+                },
+                {
+                    "path": "uppwd/index",
+                    "style": {
+                        "navigationBarTitleText": "修改密码"
+                    }
+                },
+                {
+                    "path": "bind/index",
+                    "style": {
+                        "navigationBarTitleText": "绑定手机"
+                    }
+                },
+                {
+                    "path": "aboutUs/index",
+                    "style": {
+                        "navigationBarTitleText": "关于我们"
+                    }
+                },
+                {
+                    "path": "lookShop/index",
+                    "style": {
+                        "navigationBarTitleText": "查看店铺"
+                    }
+                },
+                {
+                    "path": "addShop/index",
+                    "style": {
+                        "navigationBarTitleText": "添加店铺"
+                    }
+                }
+            ]
+        }
+    ],
+    "tabBar": {
+        "color": "#B2B5BB",
+        "selectedColor": "#FF6E44",
+        "backgroundColor": "#ffffff",
+        "list": [
+            {
+                "pagePath": "pages/main/index",
+                "text": "首页",
+                "iconPath": "static/main/home1.png",
+                "selectedIconPath": "static/main/home2.png"
+            },
+            {
+                "pagePath": "pages/order/index",
+                "text": "订单",
+                "iconPath": "static/main/order1.png",
+                "selectedIconPath": "static/main/order2.png"
+            },
+            {
+                "pagePath": "pages/my/index",
+                "text": "我的",
+                "iconPath": "static/main/my1.png",
+                "selectedIconPath": "static/main/my2.png"
+            }
+        ]
+    },
+    "globalStyle": {
+        "navigationBarTitleText": "莱养你商家端",
+        "navigationBarTextStyle": "white",
+        "navigationBarBackgroundColor": "#FF6E44",
+        "backgroundColor": "#F9F9FB",
+        "app-plus": {
+            "bounce": "none" // 取消APP端iOS回弹,避免与下拉刷新冲突 (可统一配在 'globalStyle')
+        },
+        "mp-alipay": {
+            "allowsBounceVertical": "NO" // 取消支付宝和钉钉小程序的iOS回弹,避免与下拉刷新冲突 (可统一配在 'globalStyle')
+        }
+    }
 }

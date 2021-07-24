@@ -130,26 +130,24 @@
 			getList() {
 				let mescroll = this.mescroll;
 				mescroll.endErr();
-				// this.$api.article.help({
-				// 	current: mescroll.num,
-				// 	size: 10,
-				// 	key: this.key
-				// }).then(d => {
-				// 	//设置列表数据
-				// 	//如果是第一页需手动置空列表
-				// 	if (d.curPage == 1) this.listData = [];
-				// 	if (d.code == 1) {
-				// 		this.listData = this.listData.concat(d.data);
-				// 		let curPageLen = d.data.length;
-				// 		setTimeout((e) => {
-				// 			mescroll.endBySize(curPageLen, d.totalCount);
-				// 		}, 20)
-				// 	} else {
-				// 		mescroll.endErr();
-				// 	}
-				// }).catch(e => {
-				// 	mescroll.endErr();
-				// })
+				this.$api.shopAdmin.shopList({
+					
+				}).then(d => {
+					//设置列表数据
+					//如果是第一页需手动置空列表
+					if (d.curPage == 1) this.listData = [];
+					if (d.status == 1) {
+						this.listData = this.listData.concat(d.data);
+						let curPageLen = d.data.length;
+						setTimeout((e) => {
+							mescroll.endBySize(curPageLen, d.totalCount);
+						}, 20)
+					} else {
+						mescroll.endErr();
+					}
+				}).catch(e => {
+					mescroll.endErr();
+				})
 			}
 
 		}

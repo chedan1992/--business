@@ -4,11 +4,13 @@
 //公用
 import * as common from './common'
 import * as auth from './auth'
-
-
+import * as my from './my'
+import * as shopAdmin from './shopAdmin'
 const apiObj = {
     common,
-	auth
+    auth,
+    my,
+    shopAdmin
 }
 
 const install = function(Vue) {
