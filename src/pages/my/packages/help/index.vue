@@ -60,7 +60,7 @@ export default {
                     //如果是第一页需手动置空列表
                     if (d.curPage == 1) this.listData = []
                     if (d.status == 1) {
-                        this.listData = this.listData.concat(d.data)
+                        this.listData = d.data
                     }
                 })
                 .catch(e => {

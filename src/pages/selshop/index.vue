@@ -15,31 +15,13 @@
                         class="serchInput"
                     />
                 </view>
-                <view><button class="btn mini-btn bg-FF6E44 colorfff">搜索</button></view>
+                <view><button class="btn mini-btn bg-FF6E44 colorfff" @click="getList()">搜索</button></view>
             </view>
-            <view class="flex-between lh100 h100 borderb bg-white">
-                <view class="pdl-30">小龙坎(城北店）</view>
-                <view class="mgr-20 colorFF6E44 f26">
+            <view class="flex-between pd-10 borderb bg-white" v-for="(item, e) in listData" :key="e" @click="chickNowShop(item)">
+                <view class=" pd-20 nameWidth">{{ item.shopname }}</view>
+                <view class="mgr-20 colorFF6E44 f26" v-if="item.shopid == nowShop.shopid">
                     <image src="/static/dangqian.png" class="w26 h26 mgr-20"></image>
                     当前选择
-                </view>
-            </view>
-            <view class="flex-between lh100 h100 borderb bg-white">
-                <view class="pdl-30">小龙坎(城北店）</view>
-                <view>
-                    <image src="/static/arrow.png" class="w9 h15 mgr-20"></image>
-                </view>
-            </view>
-            <view class="flex-between lh100 h100 borderb bg-white">
-                <view class="pdl-30">小龙坎(城北店）</view>
-                <view>
-                    <image src="/static/arrow.png" class="w9 h15 mgr-20"></image>
-                </view>
-            </view>
-            <view class="flex-between lh100 h100 borderb bg-white">
-                <view class="pdl-30">小龙坎(城北店）</view>
-                <view>
-                    <image src="/static/arrow.png" class="w9 h15 mgr-20"></image>
                 </view>
             </view>
         </mescroll-body>
@@ -56,7 +38,9 @@ export default {
     mixins: [MescrollMixin],
     data() {
         return {
-            key: ''
+            key: '',
+            listData: [],
+            nowShop: uni.getStorageSync('chickNowShop')
         }
     },
     onReady() {},
@@ -83,20 +67,20 @@ export default {
             this.$api.shopAdmin
                 .shopList({
                     current: mescroll.num,
-                    size: 10,
+                    size: 10000,
                     keyword: this.key,
-                    openid: uni.getStorageSync('openId')
+                    isselect: 1
                 })
                 .then(d => {
-					console.log(d)
+                    console.log(d)
                     //设置列表数据
                     //如果是第一页需手动置空列表
-                    if (d.curPage == 1) this.listData = []
-                    if (d.code == 1) {
+                    this.listData = []
+                    if (d.status == 1) {
                         this.listData = this.listData.concat(d.data)
                         let curPageLen = d.data.length
                         setTimeout(e => {
-                            mescroll.endBySize(curPageLen, d.totalCount)
+                            mescroll.endBySize(curPageLen, curPageLen)
                         }, 20)
                     } else {
                         mescroll.endErr()
@@ -105,6 +89,10 @@ export default {
                 .catch(e => {
                     mescroll.endErr()
                 })
+        },
+        chickNowShop(item) {
+            uni.setStorageSync('chickNowShop', item)
+            this.back()
         }
     }
 }
@@ -134,6 +122,9 @@ export default {
         .plh {
             font-size: 13px;
         }
+    }
+    .nameWidth {
+        width: calc(100% - 250rpx);
     }
 }
 </style>

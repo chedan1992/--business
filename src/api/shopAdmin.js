@@ -30,3 +30,12 @@ export function getCategory(data) {
         loading: true
     })
 }
+//启用禁用店铺
+export function updateShopStatus(data) {
+    return request({
+        url: 'wxShopManager/updateShopStatus',
+        method: 'post',
+        data: data,
+        loading: true
+    })
+}

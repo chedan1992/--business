@@ -1,4 +1,4 @@
-//import AsyncValidator from 'async-validator'
+import AsyncValidator from 'async-validator'
 const utils = {
 	validate: (model, rules, callback, options) => {
 		const initOptions = {
@@ -106,15 +106,15 @@ const utils = {
 		const descriptor = {
 			[prop]: propRules
 		};
-		// const validator = new AsyncValidator(descriptor);
-		// const model = {
-		// 	[prop]: value
-		// };
-		// validator.validate(model, {
-		// 	firstFields: true
-		// }, (errors) => {
-		// 	callback(errors);
-		// });
+		const validator = new AsyncValidator(descriptor);
+		const model = {
+			[prop]: value
+		};
+		validator.validate(model, {
+			firstFields: true
+		}, (errors) => {
+			callback(errors);
+		});
 	},
 	getValueByProp: (obj, prop) => {
 		let tempObj = obj;

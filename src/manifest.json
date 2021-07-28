@@ -73,26 +73,26 @@
             "port": 8011,
             "disableHostCheck": true,
             "proxy": {
-                // "/wxwebApi": {
-                //     "target": "https://www.neibuyongde.com",
-                //     "changeOrigin": true,
-                //     "secure": false
-                // },
-                // "/wxShopManager": {
-                //     "target": "https://www.neibuyongde.com/",
-                //     "changeOrigin": true,
-                //     "secure": false
-                // }
                 "/wxwebApi": {
-                    "target": "http://www.laiyangni.com/",
+                    "target": "https://www.neibuyongde.com",
                     "changeOrigin": true,
                     "secure": false
                 },
                 "/wxShopManager": {
-                    "target": "http://www.laiyangni.com/",
+                    "target": "https://www.neibuyongde.com/",
+                    "changeOrigin": true,
+                    "secure": false
+                },
+                "/wxOrders": {
+                    "target": "https://www.neibuyongde.com/",
                     "changeOrigin": true,
                     "secure": false
                 }
+                // "/wxShopManager": {
+                //     "target": "http://www.laiyangni.com/",
+                //     "changeOrigin": true,
+                //     "secure": false
+                // }
             }
         }
     }

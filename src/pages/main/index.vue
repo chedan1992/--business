@@ -8,7 +8,7 @@
                 <view class="wordW">您有一个新订单待审核</view>
             </view>
             <view class="tr flex-right wordW" @click="goislogin('../selshop/index')">
-                <view class="wordW">小龙坎北京路店</view>
+                <view class="wordW">{{ nowShop.shopname }}</view>
                 <view class="w12 h8 pdl-10 flex-center">
                     <image src="../../static/dropdown.png" class="w12 h8 "></image>
                 </view>
@@ -72,25 +72,25 @@
                 <view class="f26">
                     待审核订单
                 </view>
-                <view class="mgt-28 f36 bold">20</view>
+                <view class="mgt-28 f36 bold">{{ listData.orderAuditNum }}</view>
             </view>
             <view class="width2">
                 <view class="f26">
                     已完成订单
                 </view>
-                <view class="mgt-28 f36 bold">20</view>
+                <view class="mgt-28 f36 bold">{{ listData.orderCompleteNum }}</view>
             </view>
             <view class="width2">
                 <view class="f26">
                     待审核活动
                 </view>
-                <view class="mgt-28 f36 bold">20</view>
+                <view class="mgt-28 f36 bold">{{ listData.activityAuditNum }}</view>
             </view>
             <view class="width2">
                 <view class="f26">
                     进行中的活动
                 </view>
-                <view class="mgt-28 f36 bold">20</view>
+                <view class="mgt-28 f36 bold">{{ listData.activityIngNum }}</view>
             </view>
         </view>
     </view>
@@ -101,13 +101,33 @@ export default {
     components: {},
     data() {
         return {
-            islogin: true
+            islogin: true,
+            nowShop: [],
+            listData: []
         }
     },
     onLoad() {},
     onReady() {},
-    onShow() {},
-    methods: {}
+    onShow() {
+        this.nowShop = uni.getStorageSync('chickNowShop')
+        this.getHomePageData()
+    },
+    methods: {
+        getHomePageData() {
+            this.$api.main
+                .GetHomePageData({
+                    shopid: this.nowShop.shopid
+                })
+                .then(d => {
+                    if (d.status == 1) {
+                        this.listData = d.data
+                    }
+                })
+                .catch(e => {
+                    console.log(e)
+                })
+        }
+    }
 }
 </script>
 

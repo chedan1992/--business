@@ -6,11 +6,15 @@ import * as common from './common'
 import * as auth from './auth'
 import * as my from './my'
 import * as shopAdmin from './shopAdmin'
+import * as main from './main'
+import * as order from './order'
 const apiObj = {
     common,
     auth,
     my,
-    shopAdmin
+    shopAdmin,
+    main,
+    order
 }
 
 const install = function(Vue) {

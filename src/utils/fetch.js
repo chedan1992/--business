@@ -27,7 +27,7 @@ export function request(res) {
     }
     headers['openid'] = openId
     return new Promise((reject, resolve) => {
-        console.log(res)
+        //console.log(res)
         uni.request({
             // #ifdef H5
             url: res.url,
@@ -42,7 +42,7 @@ export function request(res) {
             success: d => {
                 if (d.statusCode == 200) {
                     //  console.log('request:success==================================' + res.url)
-                    console.log(JSON.stringify(d.data))
+                    // console.log(JSON.stringify(d.data))
                     if (d.data.code == 110 && !is110) {
                         is110 = true
                         uni.showModal({

@@ -82,7 +82,7 @@ export default {
             form: {
                 shopName: '',
                 shopId: 0,
-                onecategory: '',
+                onecategory: 0,
                 region: '',
                 address: ''
             },
