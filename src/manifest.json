@@ -74,25 +74,35 @@
             "disableHostCheck": true,
             "proxy": {
                 "/wxwebApi": {
-                    "target": "https://www.neibuyongde.com",
+                    "target": "https://shop.laiyangni.com/",
                     "changeOrigin": true,
                     "secure": false
                 },
                 "/wxShopManager": {
-                    "target": "https://www.neibuyongde.com/",
+                    "target": "https://shop.laiyangni.com/",
                     "changeOrigin": true,
                     "secure": false
                 },
                 "/wxOrders": {
-                    "target": "https://www.neibuyongde.com/",
+                    "target": "https://shop.laiyangni.com/",
+                    "changeOrigin": true,
+                    "secure": false
+                },
+                "/wxActivity": {
+                    "target": "https://shop.laiyangni.com/",
+                    "changeOrigin": true,
+                    "secure": false
+                },
+                "/wxBill": {
+                    "target": "https://shop.laiyangni.com/",
+                    "changeOrigin": true,
+                    "secure": false
+                },
+                "/withdrawalRrecharge": {
+                    "target": "https://shop.laiyangni.com/",
                     "changeOrigin": true,
                     "secure": false
                 }
-                // "/wxShopManager": {
-                //     "target": "http://www.laiyangni.com/",
-                //     "changeOrigin": true,
-                //     "secure": false
-                // }
             }
         }
     }

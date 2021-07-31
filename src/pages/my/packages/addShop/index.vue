@@ -13,15 +13,15 @@
                     class="serchInput pdl-20"
                 />
             </view>
-            <view><button class="btn bg-FF6E44 colorfff w140 h60 lh60" style="border-radius:0">搜索</button></view>
+            <view><button class="btn bg-FF6E44 colorfff w140 h60 lh60" style="border-radius:0" @click="getList()">搜索</button></view>
         </view>
         <view class="bg-white pdl-15 mgt-30">
             <checkbox-group @change="checkboxChange">
-                <label class="width100 flex pd-30 borderb" v-for="item in items" :key="item.value">
+                <label class="width100 flex pd-30 borderb" v-for="item in items" :key="item.shopid">
                     <view class="mgr-20">
-                        <checkbox color="white" style="transform:scale(0.8)" :value="item.value" :checked="selectId.indexOf(item.value) > -1" />
+                        <checkbox color="white" style="transform:scale(0.8)" :value="item.shopid" :checked="selectId.indexOf(item.shopid) > -1" />
                     </view>
-                    <view class="f30">{{ item.name }}</view>
+                    <view class="f30">{{ item.shopname }}</view>
                 </label>
             </checkbox-group>
         </view>
@@ -37,38 +37,15 @@ export default {
     components: {},
     data() {
         return {
-            items: [
-                {
-                    value: '1',
-                    name: '美国'
-                },
-                {
-                    value: '2',
-                    name: '中国'
-                },
-                {
-                    value: '3',
-                    name: '巴西'
-                },
-                {
-                    value: '4',
-                    name: '日本'
-                },
-                {
-                    value: '5',
-                    name: '英国'
-                },
-                {
-                    value: '6',
-                    name: '法国'
-                }
-            ],
+            items: [],
             labelStyle: {
                 color: '#333',
                 fontSize: '30rpx',
                 width: '200rpx'
             },
-            selectId: []
+            selectId: [],
+            select: [],
+            key: ''
         }
     },
     onReady() {},
@@ -82,10 +59,35 @@ export default {
             if (data != '') {
                 data.forEach(item => {
                     if (item.checked == true) {
-                        this.selectId.push(item.value)
+                        this.selectId.push(item.shopid)
                     }
                 })
             }
+            this.$api.shopAdmin
+                .shopList({
+                    current: 1,
+                    size: 10000,
+                    isselect: 0,
+                    keyword: this.key
+                })
+                .then(d => {
+                    console.log(d)
+                    //设置列表数据
+                    //如果是第一页需手动置空列表
+                    this.items = []
+                    if (d.status == 1) {
+                        this.items = this.items.concat(d.data)
+                        let curPageLen = d.data.length
+                        setTimeout(e => {
+                            mescroll.endBySize(curPageLen, curPageLen)
+                        }, 20)
+                    } else {
+                        mescroll.endErr()
+                    }
+                })
+                .catch(e => {
+                    mescroll.endErr()
+                })
         },
         checkboxChange: function(e, i) {
             let values = e.detail.value,
@@ -96,7 +98,7 @@ export default {
             //设置选中
             for (var i = 0, lenI = items.length; i < lenI; ++i) {
                 const item = items[i]
-                if (values.includes(item.value)) {
+                if (values.includes(item.shopid)) {
                     that.$set(item, 'checked', true)
                 } else {
                     that.$set(item, 'checked', false)
@@ -104,11 +106,11 @@ export default {
             }
             //通过选中提取数据
             this.items.forEach(item => {
-                if (item.checked == true && values.indexOf(item.value) > -1) {
+                if (item.checked == true && values.indexOf(item.shopid) > -1) {
                     select.push(item)
                 }
             })
-            uni.setStorageSync('addShop', select)
+            this.select = select
         },
         submit() {
             if (this.select == '') {
@@ -118,6 +120,7 @@ export default {
                 })
                 return
             } else {
+                uni.setStorageSync('addShop', this.select)
                 this.back()
             }
         }

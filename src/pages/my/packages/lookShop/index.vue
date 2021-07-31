@@ -19,7 +19,7 @@
                 <view class="f26">已添加店铺</view>
             </view>
             <view class="borderb pdt-30 pdb-30" v-for="(item, e) in shopList" :key="e">
-                <view class="f30">{{ item.name }}</view>
+                <view class="f30">{{ item.shopname }}</view>
             </view>
         </view>
     </view>

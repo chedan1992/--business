@@ -11,11 +11,20 @@ export function getHelp(data) {
         data: data,
         loading: true
     })
-}
+} //关于我们
 export function aboutUs(data) {
     return request({
         url: 'wxShopManager/shopAboutUs',
         method: 'get',
+        data: data,
+        loading: true
+    })
+}
+//添加子账户
+export function addSubUsers(data) {
+    return request({
+        url: 'wxShopManager/addSubUsers',
+        method: 'post',
         data: data,
         loading: true
     })

@@ -88,22 +88,22 @@ export default {
                 },
                 {
                     name: '待审核',
-                    typeId: 0,
+                    typeId: 1,
                     listData: []
                 },
                 {
                     name: '未开始',
-                    typeId: 0,
+                    typeId: 2,
                     listData: []
                 },
                 {
                     name: '进行中',
-                    typeId: 0,
+                    typeId: 3,
                     listData: []
                 },
                 {
                     name: '已结束',
-                    typeId: 0,
+                    typeId: 4,
                     listData: []
                 }
             ],
@@ -159,19 +159,19 @@ export default {
             let mescroll = this.mescrolls[index]
             let pageData = this.categoryData[index]
             mescroll.endBySize(0, 0)
-            return
-            this.$api.drycargo
-                .list({
-                    current: mescroll.num,
-                    size: mescroll.size,
+            this.$api.active
+                .getActivityList({
+                    pindex: mescroll.num,
+                    psize: mescroll.size,
+                    shopid: this.nowShop.shopid,
                     key: this.key,
-                    typeId: pageData.typeId
+                    status: pageData.typeId
                 })
                 .then(d => {
                     //设置列表数据
                     //如果是第一页需手动置空列表
                     if (d.curPage == 1) pageData.listData = []
-                    if (d.code == 1) {
+                    if (d.status == 1) {
                         pageData.listData = pageData.listData.concat(d.data)
                         let curPageLen = d.data.length
                         this.$set(this.categoryData, index, pageData)

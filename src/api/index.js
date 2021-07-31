@@ -8,13 +8,15 @@ import * as my from './my'
 import * as shopAdmin from './shopAdmin'
 import * as main from './main'
 import * as order from './order'
+import * as active from './active'
 const apiObj = {
     common,
     auth,
     my,
     shopAdmin,
     main,
-    order
+    order,
+    active
 }
 
 const install = function(Vue) {
