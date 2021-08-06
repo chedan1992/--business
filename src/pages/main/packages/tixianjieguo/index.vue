@@ -24,7 +24,8 @@ export default {
     },
     methods: {
         sumbit() {
-            this.goislogin('../setPayPw/index')
+            this.back()
+            //this.goislogin('../setPayPw/index')
         }
     }
 }

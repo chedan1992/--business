@@ -3,7 +3,7 @@
         <view class="tixian">
             <view class="tixian-left">
                 <view class="f26 color333">余额(元)</view>
-                <view class="f36 color333 mgt-36 bold">100000.00</view>
+                <view class="f36 color333 mgt-36 bold">{{ listData.amount }}</view>
             </view>
             <button class="btn-tixian" @click="goislogin('../tixian/index')">我要提现</button>
         </view>
@@ -28,7 +28,25 @@ export default {
         }
     },
     onReady() {},
+    onShow() {
+        this.getData()
+    },
     methods: {
+        getData() {
+            this.$api.main
+                .getAmount({})
+                .then(d => {
+                    if (d.status == 1) {
+                        this.listData = d.data
+                    } else {
+                        this.showToast({
+                            title: d.msg,
+                            icon: 'none'
+                        })
+                    }
+                })
+                .catch(e => {})
+        },
         save() {
             if (this.money == 0 || this.money == '') {
                 this.showToast({
@@ -51,9 +69,13 @@ export default {
                     if (d.status == 1) {
                         this.showToast({
                             duration: 3000,
-                            title: '充值'
+                            title: '充值成功'
                         }).then(r => {
-                            this.back()
+                            if (this.money == 200) {
+                                this.goislogin('../setPayPw/index')
+                            } else {
+                                this.back()
+                            }
                         })
                     } else {
                         this.showToast({

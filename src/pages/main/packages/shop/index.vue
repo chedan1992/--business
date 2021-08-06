@@ -27,15 +27,15 @@
                     <view class="pdl-30 colorFF2E42">驳回原因：{{ item.reason }}</view>
                     <view>
                         <button class="btn mini-btn bg-FF6E44 colorfff mgr-10">编辑</button>
-                        <button class="btn mini-btn bg-white mgr-10">重新提交</button>
+                        <!-- <button class="btn mini-btn bg-white mgr-10">重新提交</button> -->
                     </view>
                 </view>
                 <view class="tr pdb-20" v-if="item.isaudit != 3">
                     <button class="btn mini-btn bg-white mgr-10" v-if="item.isaudit == 2" @click="updateShopStatus(item.shopid, item.isdelete)">
                         {{ item.isdelete == 0 ? '禁用' : '启用' }}
                     </button>
-                    <button class="btn mini-btn bg-FF6E44 colorfff mgr-10" v-if="item.isaudit != 2">编辑</button>
-                    <button class="btn mini-btn bg-white mgr-10" v-if="item.isaudit != 2">重新提交</button>
+                    <button class="btn mini-btn bg-FF6E44 colorfff mgr-10" v-if="item.isaudit != 2" @click="bianji(item.shopid)">编辑</button>
+                    <!-- <button class="btn mini-btn bg-white mgr-10" v-if="item.isaudit == 3">重新提交</button> -->
                 </view>
             </view>
         </mescroll-body>
@@ -77,6 +77,9 @@ export default {
         }
     },
     onReady() {},
+    onShow() {
+        this.downCallback()
+    },
     methods: {
         // 下拉刷新的回调 (mixin默认resetUpScroll)
         downCallback() {
@@ -107,7 +110,7 @@ export default {
                     console.log(d)
                     //设置列表数据
                     //如果是第一页需手动置空列表
-                    this.listData = []
+                    if (mescroll.num == 1) this.listData = []
                     if (d.status == 1) {
                         this.listData = this.listData.concat(d.data)
                         let curPageLen = d.data.length
@@ -141,6 +144,9 @@ export default {
                 .catch(e => {
                     mescroll.endErr()
                 })
+        },
+        bianji(id) {
+            this.go('../shopadd/index?id=' + id)
         }
     }
 }

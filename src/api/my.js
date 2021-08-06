@@ -29,3 +29,39 @@ export function addSubUsers(data) {
         loading: true
     })
 }
+//获取子账户
+export function getSubUsersByShopId(data) {
+    return request({
+        url: 'wxShopManager/getSubUsersByShopId',
+        method: 'post',
+        data: data,
+        loading: true
+    })
+}
+//发送验证码
+export function sendcode(data) {
+    return request({
+        url: 'wxwebapi/sendcode',
+        method: 'get',
+        data: data,
+        loading: false
+    })
+}
+//验证当前手机
+export function validatePhone(data) {
+    return request({
+        url: 'wxShopManager/validatePhone',
+        method: 'post',
+        data: data,
+        loading: false
+    })
+}
+//修改绑定手机
+export function updatePhone(data) {
+    return request({
+        url: 'wxShopManager/updatePhone',
+        method: 'post',
+        data: data,
+        loading: false
+    })
+}

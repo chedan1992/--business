@@ -1,77 +1,61 @@
 <template>
     <view class="content">
         <evan-form :hide-required-asterisk="false" ref="form" :model="form" :rules="rules">
+            <view class="plh f30 pdl-15 lh100"> 手机号：{{ myData.telphone }} </view>
             <view class="bg-white pdl-15">
-                <evan-form-item prop="paypwd" label="旧密码" :label-style="labelStyle">
-                    <input type="password" maxlength="10" v-model="form.paypwd" placeholder="请输入旧密码" placeholder-class="plh" class="adressInput f30" />
-                </evan-form-item>
-                <evan-form-item prop="code" label="新密码" :label-style="labelStyle">
-                    <input type="password" maxlength="10" v-model="form.code" placeholder="请输入新密码" placeholder-class="plh" class="adressInput f30" />
-                </evan-form-item>
-                <evan-form-item prop="newPw2" label="确认密码" :label-style="labelStyle">
-                    <input type="password" maxlength="10" v-model="form.newPw2" placeholder="重复新密码" placeholder-class="plh" class="adressInput f30" />
+                <evan-form-item prop="code" label="获取验证码" :label-style="labelStyle">
+                    <view class="flex-between adressInput">
+                        <view class="plh f30" style="width:calc(100% - 210rpx)">
+                            <input type="phone" maxlength="10" v-model="form.code" placeholder="请输入验证码" placeholder-class="plh" class="f30" />
+                        </view>
+                        <view>
+                            <button class="btn bg-FF6E44 colorfff lh70 h70 block" style="display: block;" :disabled="index == 1" @click="sendCode()">
+                                {{ index == 1 ? '重新发送' : '发送验证码' }}
+                            </button>
+                        </view>
+                    </view>
                 </evan-form-item>
             </view>
+            <evan-form-item prop="telphone" label="支付密码" :label-style="labelStyle">
+                <input type="password" maxlength="11" v-model="form.paypwd" placeholder="请输入支付密码" placeholder-class="plh" class="adressInput f30" />
+            </evan-form-item>
         </evan-form>
         <view class="fixed dflex bottom10 pdb-20 center">
-            <button class="btn bg-FF6E44 colorfff mgr-20 mgl-20 lh80 h80" @tap="submit()">提交</button>
+            <button class="btn bg-FF6E44 colorfff mgr-20 mgl-20 lh80 h80" @click="submit()">提交</button>
         </view>
     </view>
 </template>
 
 <script>
-import unIicons from '@/components/uni-icons/uni-icons.vue'
 export default {
     components: {},
     data() {
-        var validatePass2 = (rule, value, callback) => {
-            if (value === '') {
-                callback(new Error('请再次输入密码'))
-            } else if (value !== this.form.code) {
-                callback(new Error('两次输入密码不一致!'))
-            } else {
-                callback()
-            }
-        }
         return {
             form: {
-                paypwd: '',
                 code: '',
-                newPw2: ''
+                paypwd: ''
             },
             labelStyle: {
                 color: '#333',
                 fontSize: '30rpx',
-                width: '160rpx'
+                width: '180rpx'
             },
             rules: {
-                paypwd: [
-                    {
-                        required: true,
-                        message: '请输入旧密码'
-                    },
-                    {max: 6, min: 6, message: '密码长度为6位字符', trigger: 'blur'}
-                ],
                 code: [
                     {
                         required: true,
-                        message: '请输入新密码'
-                    },
-                    {max: 6, min: 6, message: '密码长度为6位字符', trigger: 'blur'}
+                        message: '请输入验证码'
+                    }
                 ],
-                newPw2: [
+                paypwd: [
                     {
                         required: true,
-                        message: '请输入确认密码'
-                    },
-                    {
-                        validator: validatePass2,
-                        trigger: 'blur',
-                        required: true
-                    },
-                    {max: 6, min: 6, message: '密码长度为6位字符', trigger: 'blur'}
+                        message: '请输入支付密码'
+                    }
                 ]
-            }
+            },
+            myData: uni.getStorageSync('USER'),
+            index: 0
         }
     },
     onReady() {},
@@ -79,9 +63,58 @@ export default {
         submit() {
             this.$refs.form.validate().then(res => {
                 if (res) {
-                    console.log(this.form)
+                    this.$api.main
+                        .updatePayPwd({
+                            paypwd: this.form.paypwd,
+                            code: this.form.code
+                        })
+                        .then(d => {
+                            if (d.status == 1) {
+                                this.showToast({
+                                    title: '设置成功',
+                                    icon: 'none'
+                                }).then(e => {
+                                    this.back()
+                                })
+                            } else {
+                                this.showToast({
+                                    title: d.msg,
+                                    icon: 'none'
+                                })
+                            }
+                        })
+                        .catch(e => {
+                            console.log(e)
+                        })
                 }
             })
+        },
+        sendCode() {
+            this.$api.common
+                .smsSend({
+                    phone: this.myData.telphone
+                })
+                .then(d => {
+                    if (d.status == 1) {
+                        this.showToast({
+                            duration: 3000,
+                            title: '发送成功'
+                        }).then(r => {
+                            this.index = 1
+                            setTimeout(() => {
+                                this.index = 0
+                            }, 60000)
+                        })
+                    } else {
+                        this.showToast({
+                            title: d.msg,
+                            icon: 'none'
+                        })
+                    }
+                })
+                .catch(e => {
+                    console.log(e)
+                })
         }
     }
 }

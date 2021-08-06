@@ -1,12 +1,12 @@
 <template>
     <view class="mian">
         <view class="title bg-FF6E44 colorfff f28 lh80 h80 dflex pdl-30 pdr-30">
-            <view class="flex-center wordW">
+            <!-- <view class="flex-center wordW">
                 <view class="w26 h26 pdr-10 flex-center">
                     <image src="../../static/main/prompt.png" class="w26 h26 "></image>
                 </view>
                 <view class="wordW">您有一个新订单待审核</view>
-            </view>
+            </view> -->
             <view class="tr flex-right wordW" @click="goislogin('../selshop/index')">
                 <view class="wordW">{{ nowShop.shopname }}</view>
                 <view class="w12 h8 pdl-10 flex-center">

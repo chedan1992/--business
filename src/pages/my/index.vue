@@ -3,11 +3,11 @@
         <mescroll-body :ref="'mescrollRef'" @init="mescrollInit" @down="downCallback()" :up="up" @up="upCallback()" :safearea="true">
             <view class="bg-img flex pd-30 pdt-100">
                 <view>
-                    <image src="../../static/my/touxiang.png" class="w130 h130"></image>
+                    <image :src="ossFormat(myData.headimg)" class="w130 h130"></image>
                 </view>
                 <view class="pdl-30">
-                    <view class="f36 colorfff">张三</view>
-                    <view class="f30 colorfff mgt-30">13123456789</view>
+                    <view class="f36 colorfff">{{ myData.nickname }}</view>
+                    <view class="f30 colorfff mgt-30">{{ myData.telphone }}</view>
                 </view>
             </view>
             <view class="">
@@ -122,7 +122,8 @@ export default {
                     use: false // 是否显示空布局
                 }
             },
-            key: ''
+            key: '',
+            myData: uni.getStorageSync('USER')
         }
     },
     onReady() {},

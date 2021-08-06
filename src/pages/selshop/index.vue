@@ -75,7 +75,9 @@ export default {
                     console.log(d)
                     //设置列表数据
                     //如果是第一页需手动置空列表
-                    this.listData = []
+                    if (mescroll.num == 1) {
+                        this.listData = []
+                    }
                     if (d.status == 1) {
                         this.listData = this.listData.concat(d.data)
                         let curPageLen = d.data.length

@@ -78,6 +78,11 @@
                     "changeOrigin": true,
                     "secure": false
                 },
+                "/wxwebapi": {
+                    "target": "https://shop.laiyangni.com/",
+                    "changeOrigin": true,
+                    "secure": false
+                },
                 "/wxShopManager": {
                     "target": "https://shop.laiyangni.com/",
                     "changeOrigin": true,

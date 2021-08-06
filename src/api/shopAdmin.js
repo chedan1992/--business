@@ -39,3 +39,12 @@ export function updateShopStatus(data) {
         loading: true
     })
 }
+//获取店铺信息
+export function getShopDetailsById(data) {
+    return request({
+        url: 'wxShopManager/getShopDetailsById',
+        method: 'get',
+        data: data,
+        loading: true
+    })
+}

@@ -8,15 +8,15 @@
             <view id="search" class="flex-between w-calc40 pd-20 bg-white borderb">
                 <view class="flex-between inputs">
                     <view class="date lh60 h60">
-                        <MyPicker class="center" mode="date" placeholder="选择时间" :value="1"></MyPicker>
+                        <MyPicker class="center" mode="date" placeholder="选择时间" :value="d1" @change="getD1"></MyPicker>
                     </view>
                     <view class="w50 center">至</view>
                     <view class="date lh60 h60">
-                        <MyPicker class="center" mode="date" placeholder="选择时间" :value="1"></MyPicker>
+                        <MyPicker class="center" mode="date" placeholder="选择时间" :value="d2" @change="getD2"></MyPicker>
                     </view>
                 </view>
                 <view>
-                    <button class="btn mini-btn bg-FF6E44 colorfff lh60 h60">查询</button>
+                    <button class="btn mini-btn bg-FF6E44 colorfff lh60 h60" @click="downCallback()">查询</button>
                 </view>
             </view>
             <view class="contenter">
@@ -83,11 +83,19 @@ export default {
         return {
             activeTab: 1,
             key: '',
-            listData: []
+            listData: [],
+            d1: '',
+            d2: ''
         }
     },
     onReady() {},
     methods: {
+        getD1(e) {
+            this.d1 = e
+        },
+        getD2(e) {
+            this.d2 = e
+        },
         changTab(e) {
             this.activeTab = e
             this.downCallback()
@@ -115,8 +123,8 @@ export default {
                 .getFlowerDetailed({
                     pindex: mescroll.num,
                     psize: 10,
-                    dt1: '',
-                    dt2: '',
+                    dt1: this.d1,
+                    dt2: this.d2,
                     type: this.activeTab
                 })
                 .then(d => {

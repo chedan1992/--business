@@ -27,12 +27,12 @@
                         </view>
                     </view>
                 </evan-form-item>
-                <evan-form-item prop="shopName" label="美团链接" :label-style="labelStyle">
+                <!-- <evan-form-item prop="shopName" label="美团链接" :label-style="labelStyle">
                     <input type="text" maxlength="10" v-model="form.shopName" placeholder="请输入美团链接" placeholder-class="plh" class="adressInput f30" />
                 </evan-form-item>
                 <evan-form-item prop="shopName" label="饿了么链接" :label-style="labelStyle">
                     <input type="text" maxlength="10" v-model="form.shopName" placeholder="请输入饿了么链接" placeholder-class="plh" class="adressInput f30" />
-                </evan-form-item>
+                </evan-form-item> -->
                 <evan-form-item prop="region" label="省市区" :label-style="labelStyle">
                     <view class="flex-between adressInput" @tap="openPicker()">
                         <view class="plh f30">
@@ -124,6 +124,12 @@ export default {
         }
     },
     onLoad(data) {
+        if (data.id) {
+            this.form.shopId = data.id
+            this.getDetail()
+            console.log(this.form.shopId)
+        }
+
         this.getCat()
     },
     onReady() {},
@@ -150,11 +156,7 @@ export default {
             this.$refs.form.validate().then(res => {
                 if (res) {
                     //this.form.regionId = this.region[2][this.regionIds[2]].regionId;
-                    if (this.form.shopId == 0) {
-                        this.add()
-                    } else {
-                        this.edit()
-                    }
+                    this.add()
                 }
             })
         },
@@ -166,10 +168,13 @@ export default {
                 provinceid: this.lotusAddressData.provinceid,
                 cityid: this.lotusAddressData.cityid,
                 distid: this.lotusAddressData.distid,
-                shopaddress: this.address,
+                shopaddress: this.form.address,
                 lat: this.latitude,
                 lon: this.longitude,
-                openid: 'oByCw4mZX6_mhM5ZKT4G9Ws82V58'
+                shopid: this.form.shopId
+            }
+            if (this.form.shopId > 0) {
+                data.id = this.form.shopId
             }
             console.log(data)
             this.$api.shopAdmin
@@ -194,25 +199,22 @@ export default {
                     console.log(e, 1)
                 })
         },
-        edit() {
-            this.$api.address
-                .edit(this.form)
+        getDetail() {
+            this.$api.shopAdmin
+                .getShopDetailsById({shopid: this.form.shopId})
                 .then(d => {
-                    if (d.code == 1) {
-                        this.showToast({
-                            duration: 3000,
-                            title: '保存成功'
-                        }).then(r => {
-                            this.back()
-                        })
-                    } else {
-                        this.showToast({
-                            title: d.msg,
-                            icon: 'none'
-                        })
+                    if (d.status == 1) {
+                        this.uImgList.push(d.data.shoplogo)
+                        this.form.shopName = d.data.shopname
+                        this.form.address = d.data.shopaddress
+                        console.log(d.data)
+                        //this.catList = d.data
+                        //this.onecategory = d.data[0].id
                     }
                 })
-                .catch(e => {})
+                .catch(e => {
+                    console.log(e, 1)
+                })
         },
         clickHandle() {
             uni.chooseLocation({

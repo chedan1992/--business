@@ -25,28 +25,34 @@
 					// :top="顶部偏移量" :bottom="底部偏移量" :topbar="状态栏" :safearea="安全区" (常用)
 					// 字节跳动小程序 ref="mescrollRef" 必须配置
 					// 此处支持写入原生组件 -->
-                    <view class="item bg-white borderb">
+                    <view class="item bg-white borderb" v-for="(items, i) in item.listData" :key="i">
                         <view class="status">
-                            <image src="../static/active/bohui.png" class="img"></image>
+                            <image :src="items.isaudit == 1 ? shenhe : items.isaudit == 2 ? jinxingzhong : bohui" class="img"></image>
                         </view>
                         <view class="flex pd-30">
                             <view class="w120 h120 pdr-20 flex-center">
-                                <image src="../static/shop/logo.png" class="w120 h120"></image>
+                                <image :src="ossFormat(items.shoplogo)" class="w120 h120"></image>
                             </view>
                             <view class="wordW2">
-                                <view class="f30 mgb-10 wordW">东门高端料理，宝宝们入股不亏</view>
+                                <view class="f30 mgb-10 wordW">{{ items.shopname }}</view>
                                 <view class="flex-center">
-                                    <view class="wordW2 f24 color666">五星好评，20字以上，2-4张图片（记得上传到 小程序）</view>
+                                    <view class="wordW2 f24 color666">{{ items.tips }}</view>
                                 </view>
                             </view>
                         </view>
                         <view class="pdl-30 pdb-30">
-                            <view class="colorFF6E44 f12 mgb-10">总共200单，剩余100单</view>
+                            <view class="colorFF6E44 f12 mgb-10">总共{{ items.totalnumber }}单，剩余{{ items.todaybuyednumber }}单</view>
+                            <view class="colorFF2E42 f12 mgb-10">驳回原因：{{ items.reason }}</view>
                             <view class="flex flex-between">
-                                <view class="color999 f12"> 2021-05-26至2021-06-30 <br />每日09:00-12:00 </view>
+                                <view class="color999 f12">
+                                    {{ items.starttime }}至{{ items.endtime }} <br />每日{{ items.todaystarttime }}-{{ items.todayendtime }}
+                                </view>
                                 <view>
-                                    <button class="btn mini-btn bg-white mgr-10">禁用</button>
-                                    <button class="btn mini-btn bg-FF6E44 colorfff mgr-10">重新提交</button>
+                                    <button class="btn mini-btn bg-white mgr-10" v-show="isaudit == 2" @click="changeType(items.activityid)">禁用</button>
+                                    <button class="btn mini-btn bg-white mgr-10" v-show="isaudit == 3" @click="del(items.activityid)">删除</button>
+                                    <button class="btn mini-btn bg-FF6E44 colorfff mgr-10" v-show="isaudit == 3" @click="tijiao(items.activityid)">
+                                        重新提交
+                                    </button>
                                 </view>
                             </view>
                         </view>
@@ -107,7 +113,12 @@ export default {
                     listData: []
                 }
             ],
-            nowShop: []
+            nowShop: [],
+            bohui: require('../static/active/bohui.png'),
+            jinxingzhong: require('../static/active/jinxingzhong.png'),
+            shenhe: require('../static/active/shenhe.png'),
+            weikaishi: require('../static/active/weikaishi.png'),
+            yijingyong: require('../static/active/yijingyong.png')
         }
     },
     onReady() {},
@@ -155,6 +166,71 @@ export default {
             // mixin默认延时500自动结束加载
             this.getList(index)
         },
+        del(id) {
+            let that = this
+            uni.showModal({
+                title: '提示',
+                content: '确认删除该活动？',
+                success: function(res) {
+                    if (res.confirm) {
+                        that.$api.active
+                            .deleteActivity({
+                                activityid: id
+                            })
+                            .then(d => {
+                                if (d.status == 1) {
+                                    that.showToast({
+                                        duration: 3000,
+                                        title: '删除成功'
+                                    }).then(r => {
+                                        that.downCallback()
+                                    })
+                                } else {
+                                    that.showToast({
+                                        title: d.msg,
+                                        icon: 'none'
+                                    })
+                                }
+                            })
+                            .catch(e => {})
+                    } else if (res.cancel) {
+                    }
+                }
+            })
+        },
+        changeType(id) {
+            let that = this
+            uni.showModal({
+                title: '提示',
+                content: '确认改变该活动状态？',
+                success: function(res) {
+                    if (res.confirm) {
+                        that.$api.active
+                            .updateStatusActivity({
+                                activityid: id,
+                                isforbid: 0
+                            })
+                            .then(d => {
+                                if (d.status == 1) {
+                                    that.showToast({
+                                        duration: 3000,
+                                        title: '操作成功'
+                                    }).then(r => {
+                                        that.downCallback()
+                                    })
+                                } else {
+                                    that.showToast({
+                                        title: d.msg,
+                                        icon: 'none'
+                                    })
+                                }
+                            })
+                            .catch(e => {})
+                    } else if (res.cancel) {
+                    }
+                }
+            })
+        },
         getList(index) {
             let mescroll = this.mescrolls[index]
             let pageData = this.categoryData[index]
@@ -170,7 +246,7 @@ export default {
                 .then(d => {
                     //设置列表数据
                     //如果是第一页需手动置空列表
-                    if (d.curPage == 1) pageData.listData = []
+                    if (mescroll.num == 1) pageData.listData = []
                     if (d.status == 1) {
                         pageData.listData = pageData.listData.concat(d.data)
                         let curPageLen = d.data.length

@@ -7,11 +7,13 @@
                 </evan-form-item>
                 <evan-form-item prop="code" label="获取验证码" :label-style="labelStyle">
                     <view class="flex-between adressInput">
-                        <view class="plh f30">
-                            <input type="number" maxlength="10" v-model="form.code" placeholder="请输入验证码" placeholder-class="plh" class="f30" />
+                        <view class="plh f30" style="width:calc(100% - 210rpx)">
+                            <input type="phone" maxlength="10" v-model="form.code" placeholder="请输入验证码" placeholder-class="plh" class="f30" />
                         </view>
                         <view>
-                            <button class="btn bg-FF6E44 colorfff lh70 h70 block">发送验证码</button>
+                            <button class="btn bg-FF6E44 colorfff lh70 h70 block" style="display: block;" :disabled="index == 1" @click="sendCode()">
+                                {{ index == 1 ? '重新发送' : '发送验证码' }}
+                            </button>
                         </view>
                     </view>
                 </evan-form-item>
@@ -42,9 +44,12 @@ export default {
                 telphone: [
                     {
                         required: true,
-                        message: '请输入新手机号'
+                        message: '请输入11位手机号'
                     },
-                    {max: 11, min: 11, required: true, message: '请输入11位手机号'}
+                    {
+                        pattern: '^1\\d{10}$',
+                        message: '手机号格式不正确'
+                    }
                 ],
                 code: [
                     {
@@ -52,7 +57,8 @@ export default {
                         message: '请输入验证码'
                     }
                 ]
-            }
+            },
+            index: 0
         }
     },
     onReady() {},
@@ -60,9 +66,53 @@ export default {
         submit() {
             this.$refs.form.validate().then(res => {
                 if (res) {
-                    this.back(2)
+                    this.$api.my
+                        .updatePhone({
+                            telphone: this.form.telphone,
+                            code: this.form.code
+                        })
+                        .then(d => {
+                            if (d.status == 1) {
+                                this.back(2)
+                            } else {
+                                this.showToast({
+                                    title: d.msg,
+                                    icon: 'none'
+                                })
+                            }
+                        })
+                        .catch(e => {
+                            console.log(e)
+                        })
                 }
             })
+        },
+        sendCode() {
+            this.$api.common
+                .smsSend({
+                    phone: this.form.telphone
+                })
+                .then(d => {
+                    if (d.status == 1) {
+                        this.showToast({
+                            duration: 3000,
+                            title: '发送成功'
+                        }).then(r => {
+                            this.index = 1
+                            setTimeout(() => {
+                                this.index = 0
+                            }, 60000)
+                        })
+                    } else {
+                        this.showToast({
+                            title: d.msg,
+                            icon: 'none'
+                        })
+                    }
+                })
+                .catch(e => {
+                    console.log(e)
+                })
         }
     }
 }

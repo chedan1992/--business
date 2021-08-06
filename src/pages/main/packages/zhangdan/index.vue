@@ -10,15 +10,15 @@
             <view class="bg-white">
                 <view class="dflex center pdt-40 pdb-40 pdr-10 pdl-10">
                     <view>
-                        <view class="f30">98463583.40</view>
+                        <view class="f30">{{ totalamount }}</view>
                         <view class="f24">总返现(元)</view>
                     </view>
                     <view>
-                        <view class="f30">98463583.40</view>
+                        <view class="f30">{{ totalorder }}</view>
                         <view class="f24">总单量</view>
                     </view>
                     <view>
-                        <view class="f30">98463583.40</view>
+                        <view class="f30">{{ totalcommission }}</view>
                         <view class="f24">总佣金(元)</view>
                     </view>
                 </view>
@@ -26,21 +26,21 @@
             <view class="h20"></view>
             <view class="bg-white">
                 <view class="flex-between pd-30">
-                    <view class="f30 bold">最近1个月</view>
+                    <view class="f30 bold">本月数据</view>
                     <view class="flex-center" @click="go('../zhangdanserach/index')">
                         <view class="f26">查看更多</view>
                         <uni-icons class="mgt-6" type="arrowright" size="10"></uni-icons>
                     </view>
                 </view>
                 <view class="lh100 bg-white pdl-20 pdr-20 borderb">
-                    <view class="flex-between">
+                    <!-- <view class="flex-between">
                         <view class="flex-center ">
-                            <view class="f30">2021-06-10</view>
+                            <view class="f30">{{ d1 }} - {{ d2 }}</view>
                         </view>
                         <view>
                             <uni-icons type="arrowright" size="10"></uni-icons>
                         </view>
-                    </view>
+                    </view> -->
                     <view class="dflex bordert">
                         <view class="">
                             <view class="f22">店铺名称</view>
@@ -49,13 +49,7 @@
                             <view class="f22">总单量</view>
                         </view>
                         <view class="center ">
-                            <view class="f22">完成单量</view>
-                        </view>
-                        <view class="center ">
                             <view class="f24">总返现</view>
-                        </view>
-                        <view class="center ">
-                            <view class="f22">实际返现</view>
                         </view>
                         <view class="center ">
                             <view class="f22">总佣金</view>
@@ -64,50 +58,24 @@
                             <view class="f22">结算</view>
                         </view>
                     </view>
-                    <view class="dflex bordert">
+                    <view class="dflex bordert" v-for="(item, i) in listData" :key="i">
                         <view class="">
-                            <view class="f22">sdfsffs</view>
+                            <view class="f22">{{ item.shopname }}</view>
                         </view>
                         <view class="center ">
-                            <view class="f22">12</view>
+                            <view class="f22">{{ item.totalorder }}</view>
                         </view>
                         <view class="center ">
-                            <view class="f22">22</view>
+                            <view class="f22">{{ item.totalamount }}</view>
                         </view>
                         <view class="center ">
-                            <view class="f22">11</view>
+                            <view class="f22">{{ item.totalcommission }}</view>
                         </view>
                         <view class="center ">
-                            <view class="f22">11</view>
-                        </view>
-                        <view class="center ">
-                            <view class="f22">111</view>
-                        </view>
-                        <view class="center ">
-                            <button class="btn mini-btn colorfff pdl-8 pdr-8 mgt-25">完成</button>
-                        </view>
-                    </view>
-                    <view class="dflex bordert">
-                        <view class="">
-                            <view class="f22">sdfsffs</view>
-                        </view>
-                        <view class="center ">
-                            <view class="f22">12</view>
-                        </view>
-                        <view class="center ">
-                            <view class="f22">22</view>
-                        </view>
-                        <view class="center ">
-                            <view class="f22">11</view>
-                        </view>
-                        <view class="center ">
-                            <view class="f22">11</view>
-                        </view>
-                        <view class="center ">
-                            <view class="f22">111</view>
-                        </view>
-                        <view class="center ">
-                            <button class="btn mini-btn bg-FF6E44 colorfff pdl-8 pdr-8 mgt-25">结算</button>
+                            <button class="btn mini-btn colorfff pdl-8 pdr-8 mgt-25" v-show="item.iscounter > 0">完成</button>
+                            <button class="btn mini-btn bg-FF6E44 colorfff pdl-8 pdr-8 mgt-25" v-show="item.iscounter == 0" @click="overBill(item.shopid)">
+                                结算
+                            </button>
                         </view>
                     </view>
                 </view>
@@ -131,7 +99,12 @@ export default {
     data() {
         return {
             listData: [],
-            nowShop: []
+            nowShop: [],
+            d1: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + '1',
+            d2: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
+            totalorder: 0,
+            totalamount: 0,
+            totalcommission: 0
         }
     },
     onReady() {},
@@ -154,6 +127,30 @@ export default {
         upCallback() {
             this.getList()
         },
+        overBill(id) {
+            let today = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate()
+            this.$api.main
+                .PostCounterShopBill({
+                    shopid: id,
+                    datestr: today
+                })
+                .then(d => {
+                    if (d.status == 1) {
+                        this.showToast({
+                            duration: 3000,
+                            title: '结算成功'
+                        }).then(r => {
+                            this.downCallback()
+                        })
+                    } else {
+                        this.showToast({
+                            title: d.msg,
+                            icon: 'none'
+                        })
+                    }
+                })
+                .catch(e => {})
+        },
         getList() {
             let mescroll = this.mescroll
             mescroll.endBySize(0, 0)
@@ -161,20 +158,25 @@ export default {
             this.$api.main
                 .getAccountBillList({
                     pindex: mescroll.num,
-                    psize: 10,
+                    psize: 10000,
                     dt1: '',
-                    dt2: '',
+                    dt2: this.d2,
                     shopid: this.nowShop.shopid
                 })
                 .then(d => {
                     //设置列表数据
                     //如果是第一页需手动置空列表
-                    if (d.curPage == 1) this.listData = []
+                    if (mescroll.num == 1) this.listData = []
                     if (d.status == 1) {
                         this.listData = this.listData.concat(d.data)
+                        this.listData.forEach(e => {
+                            this.totalamount = this.totalamount + e.totalamount
+                            this.totalcommission = this.totalcommission + e.totalcommission
+                            this.totalorder = this.totalorder + e.totalorder
+                        })
                         let curPageLen = d.data.length
                         setTimeout(e => {
-                            mescroll.endBySize(curPageLen, d.totalCount)
+                            mescroll.endBySize(curPageLen, curPageLen)
                         }, 20)
                     } else {
                         mescroll.endErr()

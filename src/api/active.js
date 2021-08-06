@@ -18,6 +18,25 @@ export function postActivity(data) {
         url: 'wxActivity/postActivity',
         method: 'post',
         data: data,
+        requestBody: 'body',
+        loading: true
+    })
+}
+//删除活动
+export function deleteActivity(data) {
+    return request({
+        url: 'wxActivity/deleteActivity',
+        method: 'get',
+        data: data,
+        loading: true
+    })
+}
+//更改活动状态
+export function updateStatusActivity(data) {
+    return request({
+        url: 'wxActivity/updateStatusActivity',
+        method: 'get',
+        data: data,
         loading: true
     })
 }

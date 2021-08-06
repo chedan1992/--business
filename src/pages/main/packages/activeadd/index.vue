@@ -21,7 +21,15 @@
                     </view>
                 </evan-form-item>
                 <evan-form-item prop="shopName" label="总数量" :label-style="labelStyle">
-                    <input type="text" maxlength="10" v-model="form.maxnumber" placeholder="请输入总数量" placeholder-class="plh" class="adressInput f30" />
+                    <input
+                        type="text"
+                        maxlength="10"
+                        v-model="form.maxnumber"
+                        placeholder="请输入总数量"
+                        @blur="updateStatusActivity()"
+                        placeholder-class="plh"
+                        class="adressInput f30"
+                    />
                 </evan-form-item>
                 <evan-form-item prop="shopName" label="条件" :label-style="labelStyle">
                     <view class="dflex">
@@ -199,17 +207,33 @@ export default {
             this.$refs.form.validate().then(res => {
                 if (res) {
                     if (this.form.activityId == 0) {
-                        this.form.platformtype = this.form.platformtype.join(',')
-                        this.add()
+                        let data = []
+                        this.form.platformtype.forEach(e => {
+                            data.push({
+                                shopId: uni.getStorageSync('chickNowShop').shopid,
+                                platformtype: e,
+                                full: this.form.full,
+                                sub: this.form.sub,
+                                maxnumber: this.form.maxnumber,
+                                starttime: this.form.starttime,
+                                endtime: this.form.endtime,
+                                todaystarttime: this.form.todaystarttime,
+                                todayendtime: this.form.todayendtime,
+                                remark: this.form.remark
+                            })
+                        })
+
+                        this.add(data)
+                        console.log(this.form)
                     } else {
                         this.edit()
                     }
                 }
             })
         },
-        add() {
+        add(data) {
             this.$api.active
-                .postActivity(this.form)
+                .postActivity(data)
                 .then(d => {
                     if (d.status == 1) {
                         this.showToast({

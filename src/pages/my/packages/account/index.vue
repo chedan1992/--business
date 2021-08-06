@@ -8,32 +8,15 @@
         </uni-nav-bar>
         <mescroll-body :ref="'mescrollRef'" @init="mescrollInit" @down="downCallback()" @up="upCallback()" :safearea="true">
             <view class="users">
-                <view class="item bg-white borderb">
+                <view class="item bg-white borderb" v-for="(item, i) in listData" :key="i">
                     <view class="flex-between pd-30">
                         <view class="flex wordW">
                             <view class="w120 h120 pdr-20 flex-center">
-                                <image src="/static/my/touxiang.png" class="w120 h120"></image>
+                                <image :src="ossFormat(item.headimg)" class="w120 h120"></image>
                             </view>
                             <view class="wordW">
-                                <view class="f30 mgb-20 wordW">张三</view>
-                                <view class="f30 mgb-20 wordW">13123456789</view>
-                            </view>
-                        </view>
-                    </view>
-                    <view class="tr pdb-20">
-                        <button class="btn mini-btn bg-white mgr-10">删除</button>
-                        <button class="btn mini-btn bg-FF6E44 colorfff mgr-10">编辑</button>
-                    </view>
-                </view>
-                <view class="item bg-white borderb">
-                    <view class="flex-between pd-30">
-                        <view class="flex wordW">
-                            <view class="w120 h120 pdr-20 flex-center">
-                                <image src="/static/my/touxiang.png" class="w120 h120"></image>
-                            </view>
-                            <view class="wordW">
-                                <view class="f30 mgb-20 wordW">张三</view>
-                                <view class="f30 mgb-20 wordW">13123456789</view>
+                                <view class="f30 mgb-20 wordW">{{ item.nickname }}</view>
+                                <!-- <view class="f30 mgb-20 wordW">13123456789</view> -->
                             </view>
                         </view>
                     </view>
@@ -66,7 +49,8 @@ export default {
     mixins: [MescrollMixin],
     data() {
         return {
-            nowShop: []
+            nowShop: [],
+            listData: []
         }
     },
     onReady() {},
@@ -93,26 +77,29 @@ export default {
             let mescroll = this.mescroll
             mescroll.endBySize(0, 0)
             mescroll.endErr()
-            // this.$api.article.help({
-            // 	current: mescroll.num,
-            // 	size: 10,
-            // 	key: this.key
-            // }).then(d => {
-            // 	//设置列表数据
-            // 	//如果是第一页需手动置空列表
-            // 	if (d.curPage == 1) this.listData = [];
-            // 	if (d.code == 1) {
-            // 		this.listData = this.listData.concat(d.data);
-            // 		let curPageLen = d.data.length;
-            // 		setTimeout((e) => {
-            // 			mescroll.endBySize(curPageLen, d.totalCount);
-            // 		}, 20)
-            // 	} else {
-            // 		mescroll.endErr();
-            // 	}
-            // }).catch(e => {
-            // 	mescroll.endErr();
-            // })
+            this.$api.my
+                .getSubUsersByShopId({
+                    current: mescroll.num,
+                    size: 10,
+                    shopid: this.nowShop.shopid
+                })
+                .then(d => {
+                    //设置列表数据
+                    //如果是第一页需手动置空列表
+                    if (mescroll.num == 1) this.listData = []
+                    if (d.staus == 1) {
+                        this.listData = this.listData.concat(d.data)
+                        let curPageLen = d.data.length
+                        setTimeout(e => {
+                            mescroll.endBySize(curPageLen, d.totalCount)
+                        }, 20)
+                    } else {
+                        mescroll.endErr()
+                    }
+                })
+                .catch(e => {
+                    mescroll.endErr()
+                })
         }
     }
 }

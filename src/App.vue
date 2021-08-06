@@ -140,4 +140,8 @@ uni-checkbox .uni-checkbox-input.uni-checkbox-input-checked {
     background: #ff6e45;
     border-color: #ff6e45;
 }
+uni-radio .uni-radio-input-checked {
+    background: #ff6e45 !important;
+    border-color: #ff6e45 !important;
+}
 </style>

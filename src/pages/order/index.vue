@@ -8,13 +8,13 @@
                     maxlength="10"
                     name="search"
                     confirm-type="search"
-                    v-model="key"
+                    v-model="keyword"
                     type="text"
                     placeholder="订单号|平台订单号|客户手机号"
                     class="serchInput"
                 />
             </view>
-            <view><button class="btn mini-btn bg-FF6E44 colorfff">搜索</button></view>
+            <view><button class="btn mini-btn bg-FF6E44 colorfff" @click="downCallback()">搜索</button></view>
         </view>
         <view id="popu" class="bg-white pd-10 borderb">
             <view class="dflex flex-center">
@@ -42,34 +42,39 @@
                     :fixed="false"
                     :bottombar="false"
                 >
-                    <view class="item bg-white borderb" @click="go('packages/orderdetail/index')">
+                    <view
+                        class="item bg-white borderb"
+                        v-for="(items, i) in item.listData"
+                        :key="i"
+                        @click="go('packages/orderdetail/index?orderId=' + items.ordersid)"
+                    >
                         <view class="status">
                             <image src="/static/order/feihuiyuan.png" class="img"></image>
                         </view>
                         <view class="flex pd-30">
                             <view class="w120 h120 pdr-20 flex-center">
-                                <image src="../../static/main/huodong.png" class="w120 h120"></image>
+                                <image :src="items.shoplogo ? ossFormat(items.shoplogo) : img" class="w120 h120"></image>
                             </view>
                             <view class="wordW2">
-                                <view class="f30 mgb-10 wordW">东门高端料理，东门高端料理，宝宝们入股不亏</view>
+                                <view class="f30 mgb-10 wordW">{{ items.shopname }}</view>
                                 <view class="flex-center">
-                                    <view class="wordW2 f24 color666">五星好评，20字以上，2-4张图片（记得上传到 小程序）</view>
+                                    <view class="wordW2 f24 color666">{{ items.tips }}</view>
                                 </view>
                             </view>
                         </view>
                         <view class="flex-between pdl-30 pdr-30 pdb-30">
                             <view class="flex-center">
                                 <view>
-                                    <view class="colorFF6E44 f24">满30减20</view>
-                                    <view class="color999 f24">2021-04-26 14:00</view>
+                                    <view class="colorFF6E44 f24">满{{ items.full }}减{{ items.sub }}</view>
+                                    <view class="color999 f24">{{ items.createtime }}</view>
                                 </view>
                                 <view>
                                     <image src="/static/order/phone.png" class="w21 h26 mgl-30"></image>
                                 </view>
                             </view>
-                            <view class="tr">
-                                <button class="btn mini-btn bg-white mgr-10">拒绝</button>
-                                <button class="btn mini-btn bg-FF6E44 colorfff mgr-10">通过</button>
+                            <view class="tr" v-show="items.orderstatus == 3">
+                                <button class="btn mini-btn bg-white mgr-10" @click="onOpenPromptClick(items.ordersid)">拒绝</button>
+                                <button class="btn mini-btn bg-FF6E44 colorfff mgr-10" @click="agreen(items.ordersid)">通过</button>
                             </view>
                         </view>
                     </view>
@@ -82,28 +87,48 @@
                 <view class="pd-30">
                     <view class="tit">平台活动</view>
                     <view class="tl type">
-                        <button class="btn bg-white mgr-20 active">全部</button>
-                        <button class="btn bg-white mgr-20">美团</button>
-                        <button class="btn bg-white">饿了么</button>
+                        <radio-group class="flex" @change="radioChange">
+                            <label class="uni-list-cell uni-list-cell-pd flex mgr-25">
+                                <radio value="0" style="transform:scale(0.8)" :checked="platform == 0" />
+                                <view>全部</view>
+                            </label>
+                            <label class="uni-list-cell uni-list-cell-pd flex mgr-25">
+                                <radio value="1" style="transform:scale(0.8)" :checked="platform == 1" />
+                                <view>美团</view>
+                            </label>
+                            <label class="uni-list-cell uni-list-cell-pd flex">
+                                <radio value="2" style="transform:scale(0.8)" :checked="platform == 2" />
+                                <view>饿了么</view>
+                            </label>
+                        </radio-group>
                     </view>
                     <view class="tit">订单时间</view>
                     <view class="dflex">
-                        <view> <MyPicker mode="date" placeholder="选择时间" :value="1"></MyPicker> </view>至
+                        <view> <MyPicker mode="date" placeholder="选择时间" :value="d1" @change="getD1"></MyPicker> </view>至
                         <view>
-                            <MyPicker mode="date" placeholder="选择时间" :value="1"></MyPicker>
+                            <MyPicker mode="date" placeholder="选择时间" :value="d2" @change="getD2"></MyPicker>
                         </view>
                     </view>
-                    <view class="tit">省市区</view>
+                    <!-- <view class="tit">省市区</view>
                     <view>
                         <MyPicker mode="region" placeholder="请选择" :value="[0, 1, 2]"></MyPicker>
-                    </view>
+                    </view> -->
                 </view>
                 <view class="dflex footer">
-                    <button class="btn mini-btn bg-white">拒绝</button>
-                    <button class="btn mini-btn bg-FF6E44 colorfff">通过</button>
+                    <button class="btn mini-btn bg-white" @click="clearAll()">重置</button>
+                    <button
+                        class="btn mini-btn bg-FF6E44 colorfff"
+                        @click="
+                            downCallback()
+                            $refs.popup.close()
+                        "
+                    >
+                        确认
+                    </button>
                 </view>
             </view>
         </uni-popup>
+        <yomol-prompt :title="promptTitle" :inputType="promptInputType" ref="yomolPrompt" @onConfirm="onPromptConfirm"></yomol-prompt>
     </view>
 </template>
 
@@ -112,11 +137,13 @@ import mTab from '@/components/m-tab'
 import MescrollMixin from '@/components/mescroll-uni/mescroll-mixins.js'
 import MescrollUni from '@/components/mescroll-uni/mescroll-uni.vue' // 注意.vue后缀不能省
 import MyPicker from '@/components/m-picker.vue'
+import yomolPrompt from '../../components/yomol-prompt/yomol-prompt.vue'
 export default {
     components: {
         mTab,
         MyPicker,
-        MescrollUni
+        MescrollUni,
+        yomolPrompt
     },
     mixins: [MescrollMixin],
     data() {
@@ -125,7 +152,8 @@ export default {
             titH: 0,
             popuH: 0,
             navH: 0,
-            key: '',
+            keyword: '',
+            img: require('../../static/main/huodong.png'),
             categoryCur: 0,
             categoryData: [
                 {
@@ -135,21 +163,27 @@ export default {
                 },
                 {
                     name: '待上传',
-                    typeId: 1,
-                    listData: []
-                },
-                {
-                    name: '待审核',
                     typeId: 2,
                     listData: []
                 },
                 {
-                    name: '已完成',
+                    name: '待审核',
                     typeId: 3,
+                    listData: []
+                },
+                {
+                    name: '已完成',
+                    typeId: 5,
                     listData: []
                 }
             ],
-            nowShop: []
+            nowShop: [],
+            promptTitle: '提示',
+            promptInputType: 'text',
+            nowId: 0,
+            d1: '',
+            d2: '',
+            platform: 0
         }
     },
     onReady() {
@@ -177,8 +211,24 @@ export default {
         this.nowShop = uni.getStorageSync('chickNowShop')
     },
     methods: {
+        clearAll() {
+            this.keyword = ''
+            this.dt1 = ''
+            this.dt2 = ''
+            this.platform = ''
+        },
+        getD1(e) {
+            this.d1 = e
+        },
+        getD2(e) {
+            this.d2 = e
+        },
         showSearch() {
             this.$refs.popup && this.$refs.popup.open()
+        },
+        radioChange(e) {
+            console.log(e)
+            this.platform = e.detail.value
         },
         // mescroll组件初始化的回调,可获取到mescroll对象
         mescrollInit(mescroll) {
@@ -228,19 +278,18 @@ export default {
                 .getOrdersByShopId({
                     pindex: mescroll.num,
                     psize: mescroll.size,
-                    key: this.key,
                     status: pageData.typeId,
-                    keyword: '',
-                    dt1: '',
-                    dt2: '',
-                    platform: '',
+                    keyword: this.keyword,
+                    dt1: this.d1,
+                    dt2: this.d2,
+                    platform: this.platform,
                     shopid: this.nowShop.shopid
                 })
                 .then(d => {
                     //设置列表数据
                     //如果是第一页需手动置空列表
-                    if (d.curPage == 1) pageData.listData = []
-                    if (d.code == 1) {
+                    if (mescroll.num == 1) pageData.listData = []
+                    if (d.status == 1) {
                         pageData.listData = pageData.listData.concat(d.data)
                         let curPageLen = d.data.length
                         this.$set(this.categoryData, index, pageData)
@@ -267,6 +316,66 @@ export default {
                 this.mescroll = this.mescrolls[this.categoryCur]
                 //console.log(this.mescroll)
             }, 0)
+        },
+        /*
+         * 打开提示框
+         */
+        onOpenPromptClick(id) {
+            this.promptTitle = '拒绝原因' //提示名称
+            this.promptInputType = 'text' //输入类型 同Input组件
+            this.$refs.yomolPrompt.show()
+            this.nowId = id
+        },
+        /*
+         * 输入内容
+         */
+        onPromptConfirm(e) {
+            let that = this
+            that.$api.order
+                .OrderJudge({
+                    ordersid: that.nowId,
+                    isagree: 0,
+                    reason: e
+                })
+                .then(d => {
+                    that.showToast({
+                        duration: 3000,
+                        title: '操作成功'
+                    }).then(r => {
+                        that.back()
+                    })
+                })
+                .catch(e => {
+                    console.log(e)
+                })
+        },
+        agreen(id) {
+            let that = this
+            uni.showModal({
+                title: '提示',
+                content: '您确定通过吗？',
+                success: function(res) {
+                    if (res.confirm) {
+                        that.$api.order
+                            .OrderJudge({
+                                ordersid: id,
+                                isagree: 1
+                            })
+                            .then(d => {
+                                that.showToast({
+                                    duration: 3000,
+                                    title: '操作成功'
+                                }).then(r => {
+                                    that.back()
+                                })
+                            })
+                            .catch(e => {
+                                console.log(e)
+                            })
+                    } else if (res.cancel) {
+                    }
+                }
+            })
         }
     }
 }

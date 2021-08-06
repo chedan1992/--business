@@ -12,3 +12,21 @@ export function getOrdersByShopId(data) {
         loading: true
     })
 }
+//获取订单详情
+export function getOrderDetails(data) {
+    return request({
+        url: 'wxOrders/getOrderDetails',
+        method: 'get',
+        data: data,
+        loading: true
+    })
+}
+//审核订单
+export function OrderJudge(data) {
+    return request({
+        url: 'wxOrders/OrderJudge',
+        method: 'post',
+        data: data,
+        loading: true
+    })
+}
