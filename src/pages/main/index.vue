@@ -101,12 +101,13 @@ export default {
     components: {},
     data() {
         return {
-            islogin: true,
             nowShop: [],
             listData: []
         }
     },
-    onLoad() {},
+    onLoad() {
+		this.goislogin()
+	},
     onReady() {},
     onShow() {
         this.nowShop = uni.getStorageSync('chickNowShop')

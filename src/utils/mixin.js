@@ -3,12 +3,21 @@
  */
 
 import {
-	format
+	format,
+	dbSet,
+	dbGet,
+	dbDelete
 } from './tool.js'
+
+
+
+
 const extend = {
 	data() {
+		let user = this.dbGet('USER')
 		return {
-			islogin:true
+			_user: user,
+			islogin: user ? true : false
 		}
 	},
 	onShareAppMessage() {
@@ -19,6 +28,15 @@ const extend = {
 	},
 	props: {},
 	methods: {
+		dbSet(key, value, fn){
+			return dbSet(key, value, fn)
+		},
+		dbGet(key, fn){
+			return dbGet(key, fn)
+		},
+		dbDelete(key, fn){
+			return dbDelete(key, fn)
+		},
 		htmlFormat(htmlText) {
 			if (htmlText) {
 				let str = htmlText.replace(/<img[^>]*>/gi, function(match, capture) {
@@ -55,7 +73,7 @@ const extend = {
 					content: '您还未登录，快去登录吧？',
 				}).then(r => {
 					if (r.confirm) {
-						this.goTop('../login/login');
+						this.goTop('/pages/login/index');
 					}
 				})
 			} else {

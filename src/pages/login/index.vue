@@ -20,7 +20,9 @@
 		data() {
 			return {}
 		},
-		onLoad(option) {},
+		onLoad(option) {
+			
+		},
 		methods: {
 			login: function() {
 				this.back();

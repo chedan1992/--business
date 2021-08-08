@@ -161,6 +161,98 @@ export function integerNumValidate(rule, value, callback) {
 	}
 }
 
+
+export function dbSet(key, value, fn) {
+	try {
+		var v = value;
+		if ('string' === typeof v) {
+			v = 'str-' + v;
+		} else if ('function' === typeof v) {
+			v = 'fun-(' + v.toString() + ')';
+		} else if ('object' === typeof v) {
+			v = JSON.stringify(v);
+			v = 'obj-' + v;
+		} else if ('number' === typeof v) {
+			v = JSON.stringify(v);
+			v = 'number-' + v;
+		} else {
+			return false;
+		}
+		if ('function' === typeof fn) {
+			uni.setStorage({
+				key: key,
+				data: v,
+				complete: fn
+			})
+		} else {
+			uni.setStorageSync(key, v);
+		}
+	} catch (e) {
+		console.warn(e);
+		return false;
+	}
+}
+
+export function dbGet(key, fn) {
+	try {
+		var v = '';
+		if ('function' === typeof fn) {
+			uni.getStorage({
+				key: key,
+				complete: function(res) {
+					v = res.data;
+					if (!v) {
+						res.data = false;
+					} else if (0 === v.indexOf('obj-')) {
+						v = v.slice(4);
+						res.data = JSON.parse(v);
+					} else if (0 === v.indexOf('str-')) {
+						res.data = v.slice(4);
+					} else if (0 === v.indexOf('fun-')) {
+						res.data = eval(v.slice(4));
+					} else if (0 === v.indexOf('number-')) {
+						res.data = Number(v.slice(7));
+					}
+					fn(res);
+				}
+			});
+		} else {
+			v = uni.getStorageSync(key);
+			if (!v) {
+				return false;
+			}
+			if (0 === v.indexOf('obj-')) {
+				v = v.slice(4);
+				return JSON.parse(v);
+			} else if (0 === v.indexOf('str-')) {
+				return v.slice(4);
+			} else if (0 === v.indexOf('fun-')) {
+				return eval(v.slice(4));
+			} else if (0 === v.indexOf('number-')) {
+				return Number(v.slice(7));
+			}
+		}
+	} catch (e) {
+		console.warn(e);
+	}
+}
+
+export function dbDelete(key, fn) {
+	try {
+		if ('function' === typeof fn) {
+			uni.removeStorage({
+				key: key,
+				complete: fn
+			});
+		} else {
+			uni.removeStorageSync(key);
+		}
+	} catch (e) {
+		console.warn(e);
+	}
+}
+
+
 import {
 	oss_config
 } from './config.js'
