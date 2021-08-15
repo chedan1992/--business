@@ -2,7 +2,6 @@
 export default {
     onLoad() {
         console.log(this)
-        console.log(uni)
     },
     onLaunch() {
         console.log('App Launch')

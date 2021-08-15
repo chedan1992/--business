@@ -35,7 +35,7 @@
     ],
     "subpackages": [
         {
-            "root": "pages/main/packages",
+            "root": "pages/main/packages/",
             "name": "main",
             "pages": [
                 {
@@ -121,7 +121,7 @@
             ]
         },
         {
-            "root": "pages/order/packages",
+            "root": "pages/order/packages/",
             "name": "order",
             "pages": [
                 {
@@ -133,7 +133,7 @@
             ]
         },
         {
-            "root": "pages/my/packages",
+            "root": "pages/my/packages/",
             "name": "my",
             "pages": [
                 {

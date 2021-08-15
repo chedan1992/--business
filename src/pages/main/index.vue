@@ -106,10 +106,10 @@ export default {
         }
     },
     onLoad() {
-		this.goislogin()
 	},
     onReady() {},
     onShow() {
+		this.goislogin()
         this.nowShop = uni.getStorageSync('chickNowShop')
         this.getHomePageData()
     },

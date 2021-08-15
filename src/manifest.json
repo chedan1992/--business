@@ -1,21 +1,21 @@
 {
-    "name": "莱养你商家端",
-    "appid": "",
-    "description": "莱养你商家端",
-    "versionName": "1.0.0",
-    "versionCode": "100",
-    "transformPx": false,
+    "name" : "莱养你商家端",
+    "appid" : "",
+    "description" : "莱养你商家端",
+    "versionName" : "1.0.0",
+    "versionCode" : "100",
+    "transformPx" : false,
     /* 5+App特有相关 */
-    "app-plus": {
-        "usingComponents": true,
-        "compilerVersion": 3,
+    "app-plus" : {
+        "usingComponents" : true,
+        "compilerVersion" : 3,
         /* 模块配置 */
-        "modules": {},
+        "modules" : {},
         /* 应用发布信息 */
-        "distribute": {
+        "distribute" : {
             /* android打包配置 */
-            "android": {
-                "permissions": [
+            "android" : {
+                "permissions" : [
                     "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
                     "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
                     "<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>",
@@ -41,72 +41,74 @@
                 ]
             },
             /* ios打包配置 */
-            "ios": {},
+            "ios" : {},
             /* SDK配置 */
-            "sdkConfigs": {}
+            "sdkConfigs" : {}
         }
     },
     /* 快应用特有相关 */
-    "quickapp": {},
+    "quickapp" : {},
     /* 小程序特有相关 */
-    "mp-weixin": {
-        "appid": "wxf5446a8f97590937",
-        "setting": {
-            "urlCheck": false
+    "mp-weixin" : {
+        "appid" : "wxf5446a8f97590937",
+        "setting" : {
+            "urlCheck" : false,
+            "es6" : true
         },
-        "usingComponents": true
+        "usingComponents" : true,
+        "permission" : {}
     },
-    "mp-alipay": {
-        "usingComponents": true
+    "mp-alipay" : {
+        "usingComponents" : true
     },
-    "mp-baidu": {
-        "usingComponents": true
+    "mp-baidu" : {
+        "usingComponents" : true
     },
-    "mp-toutiao": {
-        "usingComponents": true
+    "mp-toutiao" : {
+        "usingComponents" : true
     },
-    "h5": {
-        "router": {
-            "base": ""
+    "h5" : {
+        "router" : {
+            "base" : ""
         },
-        "devServer": {
-            "port": 8011,
-            "disableHostCheck": true,
-            "proxy": {
-                "/wxwebApi": {
-                    "target": "https://shop.laiyangni.com/",
-                    "changeOrigin": true,
-                    "secure": false
+        "devServer" : {
+            "port" : 8011,
+            "disableHostCheck" : true,
+            "proxy" : {
+                "/wxwebApi" : {
+                    "target" : "https://shop.laiyangni.com/",
+                    "changeOrigin" : true,
+                    "secure" : false
                 },
-                "/wxwebapi": {
-                    "target": "https://shop.laiyangni.com/",
-                    "changeOrigin": true,
-                    "secure": false
+                "/wxwebapi" : {
+                    "target" : "https://shop.laiyangni.com/",
+                    "changeOrigin" : true,
+                    "secure" : false
                 },
-                "/wxShopManager": {
-                    "target": "https://shop.laiyangni.com/",
-                    "changeOrigin": true,
-                    "secure": false
+                "/wxShopManager" : {
+                    "target" : "https://shop.laiyangni.com/",
+                    "changeOrigin" : true,
+                    "secure" : false
                 },
-                "/wxOrders": {
-                    "target": "https://shop.laiyangni.com/",
-                    "changeOrigin": true,
-                    "secure": false
+                "/wxOrders" : {
+                    "target" : "https://shop.laiyangni.com/",
+                    "changeOrigin" : true,
+                    "secure" : false
                 },
-                "/wxActivity": {
-                    "target": "https://shop.laiyangni.com/",
-                    "changeOrigin": true,
-                    "secure": false
+                "/wxActivity" : {
+                    "target" : "https://shop.laiyangni.com/",
+                    "changeOrigin" : true,
+                    "secure" : false
                 },
-                "/wxBill": {
-                    "target": "https://shop.laiyangni.com/",
-                    "changeOrigin": true,
-                    "secure": false
+                "/wxBill" : {
+                    "target" : "https://shop.laiyangni.com/",
+                    "changeOrigin" : true,
+                    "secure" : false
                 },
-                "/withdrawalRrecharge": {
-                    "target": "https://shop.laiyangni.com/",
-                    "changeOrigin": true,
-                    "secure": false
+                "/withdrawalRrecharge" : {
+                    "target" : "https://shop.laiyangni.com/",
+                    "changeOrigin" : true,
+                    "secure" : false
                 }
             }
         }

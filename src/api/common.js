@@ -15,7 +15,7 @@ import {
  */
 export function uploadServer(data) {
     return uploadFile({
-        url: '/img/upload/server/img',
+        url: 'wxwebapi/UploadFileImage',
         method: 'post',
         data: data,
         loading: true

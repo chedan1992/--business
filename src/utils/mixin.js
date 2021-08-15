@@ -15,8 +15,9 @@ import {
 const extend = {
 	data() {
 		let user = this.dbGet('USER')
+		console.log(user)
 		return {
-			_user: user,
+			USER: user,
 			islogin: user ? true : false
 		}
 	},
@@ -28,13 +29,16 @@ const extend = {
 	},
 	props: {},
 	methods: {
-		dbSet(key, value, fn){
+		formatUserInfo(user) {
+			return user
+		},
+		dbSet(key, value, fn) {
 			return dbSet(key, value, fn)
 		},
-		dbGet(key, fn){
+		dbGet(key, fn) {
 			return dbGet(key, fn)
 		},
-		dbDelete(key, fn){
+		dbDelete(key, fn) {
 			return dbDelete(key, fn)
 		},
 		htmlFormat(htmlText) {
@@ -62,22 +66,35 @@ const extend = {
 			return ''
 		},
 		go(url) {
-			uni.navigateTo({
-				url: url
-			});
+			if (url) {
+				uni.navigateTo({
+					url: url
+				});
+			}
 		},
 		goislogin(r) {
 			if (this.islogin == false) {
 				this.showModal({
 					title: '提示',
-					content: '您还未登录，快去登录吧？',
+					content: '您还未登录，快去登录吧',
 				}).then(r => {
 					if (r.confirm) {
-						this.goTop('/pages/login/index');
+						this.go('/pages/login/index');
 					}
 				})
 			} else {
-				this.go(r)
+				if (this.USER.telphone||1) {
+					this.go(r)
+				} else {
+					this.showModal({
+						title: '提示',
+						content: '您还未绑定手机号，快去绑定吧',
+					}).then(r => {
+						if (r.confirm) {
+							this.go('/pages/my/packages/bind/index');
+						}
+					})
+				}
 			}
 		},
 		goTop(url) {

@@ -163,7 +163,7 @@
 						name: this.fileKeyName,
 						filePath: path,
 					}).then(d => {
-						if (d.code == 1) {
+						if (d.status == 1) {
 							this.$emit('update:uImgList', this.list); //类似双向数据绑定
 							this.$emit('uploadSuccess', d, this.other);
 							this.$forceUpdate();

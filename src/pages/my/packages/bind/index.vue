@@ -3,7 +3,14 @@
 		<evan-form :hide-required-asterisk="false" ref="form" :model="form" :rules="rules">
 			<view class="bg-white pdl-15">
 				<evan-form-item prop="phone" label="手机号" :label-style="labelStyle">
-					<input type="phone" maxlength="11" v-model="form.phone" placeholder="请输入手机号" placeholder-class="plh" class="adressInput f30" />
+					<view class="plh f30">
+						<input type="phone" maxlength="11" v-model="form.phone" placeholder="请输入手机号" placeholder-class="plh" class="adressInput f30" />
+					</view>
+					<view>
+						<view class="tr" style="width: 108px;">
+							<button class="h28 lh28 f28 selfphone colorFF6E44" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">自动获取手机号</button>
+						</view>
+					</view>
 				</evan-form-item>
 				<evan-form-item prop="code" label="获取验证码" :label-style="labelStyle">
 					<view class="flex-between adressInput">
@@ -14,7 +21,7 @@
 							<view class="tr h21 lh21" style="width: 108px;">
 								<mTimer style="display: inline-block;" @endTimer="endTimer" :timespan="timespan">
 									<template v-slot:content="{ hms }">
-										<span class="colorCC2B20 f16" @tap="send()">{{hms&&hms.second>0?hms.second+'s后重新获取':'获取验证码'}}</span>
+										<span class="colorCC2B20 f28" @tap="send()">{{hms&&hms.second>0?hms.second+'s后重新获取':'获取验证码'}}</span>
 									</template>
 								</mTimer>
 							</view>
@@ -23,8 +30,8 @@
 				</evan-form-item>
 			</view>
 		</evan-form>
-		<view class="fixed dflex bottom10 pdb-20 center">
-			<button class="btn bg-FF6E44 colorfff mgr-20 mgl-20 lh80 h80" @click="register">提交</button>
+		<view class="fixed dflex bottom10 pdb-20 center w-calc0">
+			<button class="btn bg-FF6E44 colorfff mgr-20 mgl-20 lh80 h80 w-calc0" @click="register">提交</button>
 		</view>
 	</view>
 </template>
@@ -67,6 +74,23 @@
 
 		},
 		methods: {
+			getPhoneNumber: function(e) {
+				let data = e.detail;
+				if (data.errMsg === 'getPhoneNumber:ok') {
+					this.$api.auth.smallProcessDecrypt({
+						openid: this.USER.wxopenid,
+						encryptedDataStr: data.encryptedData,
+						...data
+					}).then(d => {
+						if (d.status == 1 && d.data) {
+							let r = JSON.parse(d.data)
+							if (r && r.phoneNumber) {
+								this.form.phone = r.phoneNumber
+							}
+						}
+					})
+				}
+			},
 			endTimer() {
 				this.timespan = 0;
 			},
@@ -74,6 +98,8 @@
 				this.$refs.form.validate().then((res) => {
 					if (res) {
 						this.$api.auth.register(this.form).then(d => {
+							this.USER.telphone = this.form.phone
+							this.dbSet("USER", that.formatUserInfo(this.USER))
 							if (d.status == 1) {
 								this.showToast({
 									title: '操作成功',
@@ -129,6 +155,13 @@
 			line-height: 40px;
 			width: 90%;
 			margin-left: 5%;
+		}
+
+		.selfphone {
+			background-color: #fff;
+			border: 0px;
+			display: inline-block;
+			padding: 0;
 		}
 	}
 </style>

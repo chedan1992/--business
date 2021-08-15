@@ -14,6 +14,15 @@ export function login(data) {
         loading: true
     })
 }
+export function smallProcessDecrypt(data) {
+    return request({
+        url: 'wxwebApi/smallProcessDecrypt',
+        method: 'post',
+        data: data,
+        loading: true
+    })
+}
+
 export function register(data) {
     return request({
         url: 'wxwebApi/register',

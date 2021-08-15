@@ -59,14 +59,12 @@
 											})
 											return
 										}
+										let user=d.data
 										that.dbSet("USER", that.formatUserInfo(user), (data) => {
 											if (user.telphone) {
 												that.back();
 											} else {
-												that.go('/pages/my/packages/bind', {
-													id: user.wxopenid,
-													type: 1
-												});
+												that.go('/pages/my/packages/bind/index');
 											}
 										})
 									} else {
@@ -84,7 +82,6 @@
 							console.log(error)
 						},
 						complete() {
-							console.log(1)
 						}
 					})
 				}
