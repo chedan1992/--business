@@ -10,13 +10,13 @@ import {
 } from './tool.js'
 
 
-
-
 const extend = {
 	data() {
 		let user = this.dbGet('USER')
 		console.log(user)
+		let nowShop = uni.getStorageSync('chickNowShop')
 		return {
+			nowShop: nowShop,
 			USER: user,
 			islogin: user ? true : false
 		}
@@ -54,6 +54,7 @@ const extend = {
 		get_height(h, isbar) {
 			let barh = isbar ? uni.getSystemInfoSync().statusBarHeight : 0;
 			h = h ? h : 44;
+			console.log(barh)
 			return (uni.getSystemInfoSync().windowHeight - barh - h) + 'px'
 		},
 		ossFormat(url, type) {
@@ -83,7 +84,7 @@ const extend = {
 					}
 				})
 			} else {
-				if (this.USER.telphone||1) {
+				if (this.USER.telphone) {
 					this.go(r)
 				} else {
 					this.showModal({

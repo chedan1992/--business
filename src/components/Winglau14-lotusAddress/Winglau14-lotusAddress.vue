@@ -86,6 +86,16 @@
 					visible:false
 				});
 			},
+			//获取省市区name
+			getTarName(value,type){
+			    let name = '';
+			    lotusAddressJson.map((item,index)=>{
+			        if(item.value === value){
+			            name = item.name;
+			        }
+			    });
+			    return name;
+			},
 			//获取省市区value
 			getTarId(name,type){
 			    let id = 0;

@@ -16,7 +16,7 @@
 					<input type="text" maxlength="10" v-model="form.shopName" placeholder="请输入店铺名称" placeholder-class="plh" class="adressInput f30" />
 				</evan-form-item>
 				<evan-form-item prop="onecategory" label="店铺分类" :label-style="labelStyle">
-					<view class="flex-between adressInput" v-if="catList != ''">
+					<view class="flex-between adressInput">
 						<picker @change="bindPickerChange" :value="index" :range="catList" :range-key="'categoryname'">
 							<view class="plh f30">
 								{{ catList[index].categoryname }}
@@ -59,7 +59,7 @@
 		<view class="fixed bottom10 pdb-20 center">
 			<view class="btn bg-FF6E44 lh80 h80 colorfff" @tap="save()">提交</view>
 		</view>
-		<lotus-address v-on:choseVal="choseValue" :lotusAddressData="lotusAddressData"></lotus-address>
+		<lotus-address ref="lotusAddress" v-on:choseVal="choseValue" :lotusAddressData="lotusAddressData"></lotus-address>
 	</view>
 </template>
 
@@ -118,13 +118,10 @@
 			}
 		},
 		onLoad(data) {
+			this.getCat()
 			if (data.id) {
 				this.form.shopId = data.id
-				this.getDetail()
-				console.log(this.form.shopId)
 			}
-
-			this.getCat()
 		},
 		onReady() {},
 		methods: {
@@ -136,11 +133,10 @@
 				this.$api.shopAdmin
 					.getCategory({})
 					.then(d => {
-						console.log(d)
 						if (d.status == 1) {
-							this.catList = d.data
-							this.onecategory = d.data[0].id
+							this.catList = d.data ? d.data : []
 						}
+						this.getDetail()
 					})
 					.catch(e => {
 						console.log(e, 1)
@@ -197,23 +193,35 @@
 					})
 			},
 			getDetail() {
-				this.$api.shopAdmin
-					.getShopDetailsById({
-						shopid: this.form.shopId
-					})
-					.then(d => {
-						if (d.status == 1) {
-							this.uImgList.push(d.data.shoplogo)
-							this.form.shopName = d.data.shopname
-							this.form.address = d.data.shopaddress
-							console.log(d.data)
-							//this.catList = d.data
-							//this.onecategory = d.data[0].id
-						}
-					})
-					.catch(e => {
-						console.log(e, 1)
-					})
+				if (this.form.shopId) {
+					this.$api.shopAdmin
+						.getShopDetailsById({
+							shopid: this.form.shopId
+						})
+						.then(d => {
+							if (d.status == 1) {
+								this.uImgList = [this.ossFormat(d.data.shoplogo)]
+								this.form.shoplogo = d.data.shoplogo
+								this.form.shopName = d.data.shopname
+								this.form.address = d.data.shopaddress
+								this.form.onecategory = d.data.onecategory
+								this.index = this.catList.findIndex(e => e.id == this.form.onecategory)
+
+								this.lotusAddressData.provinceid = d.data.provinceid
+								this.lotusAddressData.cityid = d.data.cityid
+								this.lotusAddressData.distid = d.data.distid
+								this.lotusAddressData.provinceName = this.$refs.lotusAddress.getTarName(this.lotusAddressData.provinceid)
+								this.lotusAddressData.cityName = this.$refs.lotusAddress.getTarName(this.lotusAddressData.cityid)
+								this.lotusAddressData.townName = this.$refs.lotusAddress.getTarName(this.lotusAddressData.distid)
+
+								this.form.region =
+									`${this.lotusAddressData.provinceName} ${this.lotusAddressData.cityName} ${this.lotusAddressData.townName}` //region为已选的省市区的值
+							}
+						})
+						.catch(e => {
+							console.log(e, 1)
+						})
+				}
 			},
 			clickHandle() {
 				uni.chooseLocation({

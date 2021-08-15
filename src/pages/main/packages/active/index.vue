@@ -1,14 +1,14 @@
 <template>
     <view class="content">
-        <uni-nav-bar color="#fff" leftIcon="arrowleft" @clickLeft="back" :fixed="true" :border="false" :statusBar="true" :backgroundColor="'#FF6E44'">
+        <uni-nav-bar color="#fff" leftIcon="arrowleft" @clickLeft="back" :fixed="false" :border="false" :statusBar="true" :backgroundColor="'#FF6E44'">
             <view class="center w-calc0" @click="goislogin('../../../selshop/index')">
-                <text class="colorfff">{{ nowShop.shopname }}</text>
+                <text class="colorfff">{{ nowShop.shopname }}ssss</text>
                 <image class="w12 h8 mgl-10" src="/static/dropdown.png"></image>
             </view>
         </uni-nav-bar>
-        <view ref="nav" id="nav" class="bg-white borderb">
-            <mTab flex="dflex" :lineWidth="40" id="category" :tab-data="categoryData" :tab-cur-index="categoryCur" @change="toggleCategory"></mTab>
-        </view>
+		<view ref="nav" id="nav" class="bg-white borderb mgt-40">
+			<mTab flex="dflex" :lineWidth="40" id="category" :tab-data="categoryData" :tab-cur-index="categoryCur" @change="toggleCategory"></mTab>
+		</view>
         <swiper :current="categoryCur" :duration="300" @animationfinish="animationFinish" class="myswiper" :style="{height: get_height(86, true)}">
             <swiper-item v-for="(item, i) in categoryData" :key="i" class="my-swiper-item">
                 <mescroll-uni
@@ -113,7 +113,6 @@ export default {
                     listData: []
                 }
             ],
-            nowShop: [],
             bohui: require('../static/active/bohui.png'),
             jinxingzhong: require('../static/active/jinxingzhong.png'),
             shenhe: require('../static/active/shenhe.png'),
@@ -123,7 +122,6 @@ export default {
     },
     onReady() {},
     onShow() {
-        this.nowShop = uni.getStorageSync('chickNowShop')
     },
     methods: {
         // mescroll组件初始化的回调,可获取到mescroll对象

@@ -1,6 +1,6 @@
 let base_config = 'https://shop.laiyangni.com/'
 let url_config = 'https://shop.laiyangni.com/'
-let oss_config = 'https://shop.laiyangni.com/'
+let oss_config = 'https://shop.laiyangni.com'
 
 // AppSecret:c75fe1d14d1b3e4e9c551a8df72a779e
 // AppID:wxf5446a8f97590937
