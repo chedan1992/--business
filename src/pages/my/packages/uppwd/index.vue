@@ -54,11 +54,13 @@ export default {
                     }
                 ]
             },
-            myData: uni.getStorageSync('USER'),
+            myData: '',
             index: 0
         }
     },
-    onReady() {},
+    onReady() {
+        this.myData = this.dbGet('USER')
+    },
     methods: {
         submit() {
             this.$refs.form.validate().then(res => {

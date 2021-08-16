@@ -75,3 +75,12 @@ export function updatePayPwd(data) {
         loading: true
     })
 }
+//获取所有流水
+export function getAllFlowerDetailed(data) {
+    return request({
+        url: 'withdrawalRrecharge/getAllFlowerDetailed',
+        method: 'post',
+        data: data,
+        loading: true
+    })
+}

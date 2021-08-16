@@ -3,7 +3,7 @@
         <mescroll-body :ref="'mescrollRef'" @init="mescrollInit" @down="downCallback()" :up="up" @up="upCallback()" :safearea="true">
             <view class="bg-img flex pd-30 pdt-100">
                 <view>
-                    <image :src="ossFormat(myData.headimg)" class="w130 h130"></image>
+                    <image :src="ossFormat(myData.headimg)" class="w130 h130" style="border-radius:50%"></image>
                 </view>
                 <view class="pdl-30">
                     <view class="f36 colorfff">{{ myData.nickname }}</view>
@@ -123,10 +123,12 @@ export default {
                 }
             },
             key: '',
-            myData: uni.getStorageSync('USER')
+            myData: ''
         }
     },
-    onReady() {},
+    onReady() {
+        this.myData = this.dbGet('USER')
+    },
     methods: {
         // 下拉刷新的回调 (mixin默认resetUpScroll)
         downCallback() {

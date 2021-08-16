@@ -24,12 +24,14 @@ export default {
         return {
             key: '',
             listData: [],
-            money: ''
+            money: '',
+            myData: ''
         }
     },
     onReady() {},
     onShow() {
         this.getData()
+        this.myData = this.dbGet('USER')
     },
     methods: {
         getData() {
@@ -48,6 +50,7 @@ export default {
                 .catch(e => {})
         },
         save() {
+            let that = this
             if (this.money == 0 || this.money == '') {
                 this.showToast({
                     title: '请输入充值金额',
@@ -67,14 +70,30 @@ export default {
                 })
                 .then(d => {
                     if (d.status == 1) {
-                        this.showToast({
-                            duration: 3000,
-                            title: '充值成功'
-                        }).then(r => {
-                            if (this.money == 200) {
-                                this.goislogin('../setPayPw/index')
-                            } else {
-                                this.back()
+                        uni.requestPayment({
+                            provider: 'wxpay',
+                            timeStamp: d.data.timeStamp,
+                            nonceStr: d.data.nonceStr,
+                            package: d.data.package,
+                            signType: 'MD5',
+                            paySign: d.data.paySign,
+                            success: function(res) {
+                                that.showToast({
+                                    duration: 3000,
+                                    title: '充值成功'
+                                }).then(r => {
+                                    if (that.myData.paypwd == '') {
+                                        that.goislogin('../setPayPw/index')
+                                    } else {
+                                        that.back()
+                                    }
+                                })
+                            },
+                            fail: function(err) {
+                                that.showToast({
+                                    duration: 3000,
+                                    title: '用户取消付款'
+                                })
                             }
                         })
                     } else {

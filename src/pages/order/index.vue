@@ -210,12 +210,17 @@
 			},
 			// mescroll组件初始化的回调,可获取到mescroll对象
 			mescrollInit(mescroll) {
+				mescroll.optDown.auto = false
+				mescroll.isUpAutoLoad = true
 				if (this.mescrolls.length == 0) {
-					this.mescroll = mescroll
+					this.mescroll = mescroll;
 					if (mescroll) {
 						this.mescrolls.push(mescroll)
+						setTimeout(() => {
+							this.mescroll.resetUpScroll()
+						}, 300)
 					}
-					this.mescrollInitByRef() // 兼容字节跳动小程序
+					this.mescrollInitByRef(); // 兼容字节跳动小程序
 				} else {
 					if (mescroll) {
 						this.mescrolls.push(mescroll)
@@ -285,14 +290,15 @@
 			toggleCategory(e, i) {
 				this.categoryCur = i
 				this.mescroll = this.mescrolls[this.categoryCur]
-				console.log(this.mescroll)
+				if (this.categoryData[this.categoryCur].listData && this.categoryData[this.categoryCur].listData.length == 0) {
+					this.mescroll.resetUpScroll()
+				}
 			},
 			// 页面滑动切换事件
 			animationFinish(e) {
 				setTimeout(() => {
 					this.categoryCur = e.detail.current
 					this.mescroll = this.mescrolls[this.categoryCur]
-					//console.log(this.mescroll)
 				}, 0)
 			},
 			/*

@@ -207,6 +207,8 @@
 								this.form.onecategory = d.data.onecategory
 								this.index = this.catList.findIndex(e => e.id == this.form.onecategory)
 
+								this.latitude = d.data.lat
+								this.longitude = d.data.lon
 								this.lotusAddressData.provinceid = d.data.provinceid
 								this.lotusAddressData.cityid = d.data.cityid
 								this.lotusAddressData.distid = d.data.distid
