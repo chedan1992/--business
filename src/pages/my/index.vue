@@ -77,7 +77,7 @@
                         </view>
                     </view>
                 </view>
-                <view class="lh100 bg-white pdl-30 pdr-30">
+                <!-- <view class="lh100 bg-white pdl-30 pdr-30">
                     <view class="flex-between">
                         <view class="flex-center ">
                             <image class="w36 h36" src="../../static/my/shezhi.png"></image>
@@ -87,7 +87,7 @@
                             <uni-icons type="arrowright" size="10"></uni-icons>
                         </view>
                     </view>
-                </view>
+                </view> -->
                 <view class="lh100 bg-white pdl-30 pdr-30 mgt-30">
                     <view class="flex-between">
                         <view class="flex-center ">

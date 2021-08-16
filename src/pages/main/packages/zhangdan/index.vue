@@ -6,7 +6,7 @@
                 <image class="w12 h8 mgl-10" src="/static/dropdown.png"></image>
             </view>
         </uni-nav-bar>
-        <mescroll-body :ref="'mescrollRef'" @init="mescrollInit" @down="downCallback()" @up="upCallback()" :safearea="true">
+        <mescroll-body :ref="'mescrollRef'" :height="get_height(44, true)"  @init="mescrollInit" @down="downCallback()" @up="upCallback()" :safearea="true">
             <view class="bg-white">
                 <view class="dflex center pdt-40 pdb-40 pdr-10 pdl-10">
                     <view>
@@ -27,9 +27,9 @@
             <view class="bg-white">
                 <view class="flex-between pd-30">
                     <view class="f30 bold">本月数据</view>
-                    <view class="flex-center" @click="go('../zhangdanserach/index')">
+                    <view class="flex-center lh28" @click="go('../zhangdanserach/index')">
                         <view class="f26">查看更多</view>
-                        <uni-icons class="mgt-6" type="arrowright" size="10"></uni-icons>
+                        <uni-icons type="arrowright"></uni-icons>
                     </view>
                 </view>
                 <view class="lh100 bg-white pdl-20 pdr-20 borderb">

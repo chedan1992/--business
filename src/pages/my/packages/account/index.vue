@@ -6,7 +6,7 @@
                 <image class="w12 h8 mgl-10" src="/static/dropdown.png"></image>
             </view>
         </uni-nav-bar>
-        <mescroll-body :ref="'mescrollRef'" @init="mescrollInit" @down="downCallback()" @up="upCallback()" :safearea="true">
+        <mescroll-body :ref="'mescrollRef'" :height="get_height(44, true)" @init="mescrollInit" @down="downCallback()" @up="upCallback()" :safearea="true">
             <view class="users">
                 <view class="item bg-white borderb" v-for="(item, i) in listData" :key="i">
                     <view class="flex-between pd-30">
@@ -49,13 +49,11 @@ export default {
     mixins: [MescrollMixin],
     data() {
         return {
-            nowShop: [],
             listData: []
         }
     },
     onReady() {},
     onShow() {
-        this.nowShop = uni.getStorageSync('chickNowShop')
     },
     methods: {
         // 下拉刷新的回调 (mixin默认resetUpScroll)

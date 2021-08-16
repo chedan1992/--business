@@ -18,7 +18,7 @@
             </view>
         </evan-form>
         <view class="fixed dflex bottom10 pdb-20 center">
-            <button class="btn bg-FF6E44 colorfff mgr-20 mgl-20 lh80 h80" @click="submit()">提交</button>
+            <button class="btn bg-FF6E44 colorfff mgr-20 mgl-20 lh80 h80 w-calc0" @click="submit()">提交</button>
         </view>
     </view>
 </template>

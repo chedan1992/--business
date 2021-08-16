@@ -4,7 +4,7 @@
             <view class="f30 item itemleft" :class="{check: activeTab == 1}" @click="changTab(1)">充值明细</view>
             <view class="f30 item itemright" :class="{check: activeTab == 2}" @click="changTab(2)">提现明细</view>
         </view>
-        <mescroll-body :ref="'mescrollRef'" @init="mescrollInit" @down="downCallback()" @up="upCallback()" :safearea="true">
+        <mescroll-body :ref="'mescrollRef'" :height="get_height(50, false)"  @init="mescrollInit" @down="downCallback()" @up="upCallback()" :safearea="true">
             <view id="search" class="flex-between w-calc40 pd-20 bg-white borderb">
                 <view class="flex-between inputs">
                     <view class="date lh60 h60">
