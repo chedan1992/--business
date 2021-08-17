@@ -91,8 +91,8 @@
             </view>
         </evan-form>
         <view class="pd-30 f28">
-            平台佣金4*数量20=80元 提示：本次活动需抵扣20*30元=600元，请保证余额充足。<br /><text class="colorFF6E44">当前余额：100元，请充值</text>
-            <view class="colorFF6E44 mgt-30">点击去充值</view>
+            平台佣金4*数量20=80元 提示：本次活动需抵扣20*30元=600元，请保证余额充足。<br /><text class="colorFF6E44">当前余额：{{ price }}元，请充值</text>
+            <view class="colorFF6E44 mgt-30" @click="go('../chongzhi/index')">点击去充值</view>
         </view>
         <view class="fixed bottom0">
             <button class="btn bg-FF6E44 colorfff lh80 h80 border-radius0 block" @click="save()">提交审核</button>
@@ -181,12 +181,30 @@ export default {
                         message: '请输入总数量'
                     }
                 ]
-            }
+            },
+            price: 0
         }
     },
-    onLoad(data) {},
+    onLoad(data) {
+        this.getMoeny()
+    },
     onReady() {},
     methods: {
+        getMoeny() {
+            this.$api.main
+                .getAmount({})
+                .then(d => {
+                    if (d.status == 1) {
+                        this.price = d.data.amount
+                    } else {
+                        this.showToast({
+                            title: d.msg,
+                            icon: 'none'
+                        })
+                    }
+                })
+                .catch(e => {})
+        },
         checkboxChange: function(e, i) {
             let values = e.detail.value
             this.form.platformtype = values
