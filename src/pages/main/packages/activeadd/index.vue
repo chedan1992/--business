@@ -5,15 +5,15 @@
                 <evan-form-item prop="shopName" label="平台" :label-style="labelStyle">
                     <view class="flex-center adressInput">
                         <checkbox-group @change="checkboxChange" class="flex-between">
-                            <label class="width100 flex pd-30 borderb">
+                            <label class="width100 flex pdr-30">
                                 <view class="mgr-20">
-                                    <checkbox color="white" style="transform:scale(0.8)" :value="1" />
+                                    <checkbox  style="transform:scale(0.8)" :value="1" />
                                 </view>
                                 <view class="f30">美团</view>
                             </label>
-                            <label class="width100 flex pd-30 borderb">
+                            <label class="width100 flex">
                                 <view class="mgr-20">
-                                    <checkbox color="white" style="transform:scale(0.8)" :value="2" />
+                                    <checkbox style="transform:scale(0.8)" :value="2" />
                                 </view>
                                 <view class="f30">饿了么</view>
                             </label>

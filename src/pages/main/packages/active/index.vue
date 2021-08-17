@@ -6,11 +6,11 @@
                 <image class="w12 h8 mgl-10" src="/static/dropdown.png"></image>
             </view>
         </uni-nav-bar>
-        <view ref="nav" id="nav" class="bg-white borderb mgt-40">
+        <view ref="nav" id="nav" class="bg-white borderb">
             <mTab flex="dflex" :lineWidth="40" id="category" :tab-data="categoryData" :tab-cur-index="categoryCur" @change="toggleCategory"></mTab>
         </view>
-        <swiper :current="categoryCur" :duration="300" @animationfinish="animationFinish" class="myswiper" :style="{height: get_height(86, true)}">
-            <swiper-item v-for="(item, i) in categoryData" :key="i" class="my-swiper-item">
+        <swiper :current="categoryCur" :duration="300" @animationfinish="animationFinish" class="myswiper" :style="{height:get_height(86, true)}">
+            <swiper-item v-for="(item, i) in categoryData" :key="i" class="my-swiper-item" >
                 <mescroll-uni
                     :ref="'mescrollRef' + i"
                     @init="mescrollInit"
@@ -19,12 +19,8 @@
                     :safearea="true"
                     :fixed="false"
                     :bottombar="false"
+					:height="get_height(86, true)"
                 >
-                    <!-- // @init="mescrollInit" @down="downCallback" @up="upCallback"为固定值,不可删改(与mescroll-mixins保持一致)
-					// :down="downOption" :up="upOption" 绝大部分情况无需配置
-					// :top="顶部偏移量" :bottom="底部偏移量" :topbar="状态栏" :safearea="安全区" (常用)
-					// 字节跳动小程序 ref="mescrollRef" 必须配置
-					// 此处支持写入原生组件 -->
                     <view class="item bg-white borderb" v-for="(items, i) in item.listData" :key="i">
                         <view class="status">
                             <image :src="items.isaudit == 1 ? shenhe : items.isaudit == 2 ? jinxingzhong : bohui" class="img"></image>
@@ -41,21 +37,21 @@
                             </view>
                         </view>
                         <view class="pdl-30 pdb-30">
-                            <view class="colorFF6E44 f12 mgb-10">总共{{ items.totalnumber }}单，剩余{{ items.todaybuyednumber }}单</view>
-                            <view class="colorFF2E42 f12 mgb-10">驳回原因：{{ items.reason }}</view>
+                            <view class="colorFF6E44 f24 mgb-10">总共{{ items.totalnumber }}单，剩余{{ items.todaybuyednumber }}单</view>
+                            <view class="colorFF2E42 f24 mgb-10" v-if="items.reason">驳回原因：{{ items.reason }}</view>
                             <view class="flex flex-between">
-                                <view class="color999 f12">
+                                <view class="color999 f24">
                                     {{ items.starttime }}至{{ items.endtime }} <br />每日{{ items.todaystarttime }}-{{ items.todayendtime }}
                                 </view>
                                 <view>
-                                    <button class="btn mini-btn bg-white mgr-10" v-show="isaudit == 2" @click="changeType(items.activityid, items.isforbid)">
+                                    <button class="btn mini-btn bg-white mgr-10" v-show="items.isaudit == 2" @click="changeType(items.activityid, items.isforbid)">
                                         禁用
                                     </button>
-                                    <button class="btn mini-btn bg-white mgr-10" v-show="isaudit == 3" @click="del(items.activityid)">删除</button>
-                                    <button class="btn mini-btn bg-FF6E44 colorfff mgr-10" v-show="isaudit == 3" @click="tijiao(items.activityid)">
+                                    <button class="btn mini-btn bg-white mgr-10" v-show="items.isaudit == 3" @click="del(items.activityid)">删除</button>
+                                    <button class="btn mini-btn bg-FF6E44 colorfff mgr-10" v-show="items.isaudit == 3" @click="tijiao(items.activityid)">
                                         重新提交
                                     </button>
-                                    <button class="btn mini-btn bg-FF6E44 colorfff mgr-10" v-show="isaudit != 1" @click="look(items.activityid)">
+                                    <button class="btn mini-btn bg-FF6E44 colorfff mgr-10" v-show="items.isaudit != 1" @click="look(items.activityid)">
                                         查看订单
                                     </button>
                                 </view>
