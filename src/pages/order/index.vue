@@ -48,9 +48,9 @@
                         :key="i"
                         @click="go('packages/orderdetail/index?orderId=' + items.ordersid)"
                     >
-                        <view class="status">
+                        <!-- <view class="status">
                             <image src="/static/order/feihuiyuan.png" class="img"></image>
-                        </view>
+                        </view> -->
                         <view class="flex pd-30">
                             <view class="w120 h120 pdr-20 flex-center">
                                 <image :src="items.shoplogo ? ossFormat(items.shoplogo) : img" class="w120 h120"></image>
@@ -104,9 +104,7 @@
                     </view>
                     <view class="tit">订单时间</view>
                     <view class="dflex">
-                        <view>
-                            <MyPicker mode="date" placeholder="选择时间" :value="d1" @change="getD1"></MyPicker> </view
-                        >至
+                        <view> <MyPicker mode="date" placeholder="选择时间" :value="d1" @change="getD1"></MyPicker> </view>至
                         <view>
                             <MyPicker mode="date" placeholder="选择时间" :value="d2" @change="getD2"></MyPicker>
                         </view>

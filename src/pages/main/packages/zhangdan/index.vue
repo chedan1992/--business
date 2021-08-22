@@ -6,7 +6,7 @@
                 <image class="w12 h8 mgl-10" src="/static/dropdown.png"></image>
             </view>
         </uni-nav-bar>
-        <mescroll-body :ref="'mescrollRef'" :height="get_height(44, true)"  @init="mescrollInit" @down="downCallback()" @up="upCallback()" :safearea="true">
+        <mescroll-body :ref="'mescrollRef'" :height="get_height(44, true)" @init="mescrollInit" @down="downCallback()" @up="upCallback()" :safearea="true">
             <view class="bg-white">
                 <view class="dflex center pdt-40 pdb-40 pdr-10 pdl-10">
                     <view>
@@ -158,7 +158,7 @@ export default {
             this.$api.main
                 .getAccountBillList({
                     pindex: mescroll.num,
-                    psize: 10000,
+                    psize: 10,
                     dt1: '',
                     dt2: this.d2,
                     shopid: this.nowShop.shopid

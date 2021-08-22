@@ -40,3 +40,32 @@ export function updateStatusActivity(data) {
         loading: true
     })
 }
+//获取添加活动规则
+export function getActivityRules(data) {
+    return request({
+        url: 'wxActivity/getActivityRules',
+        method: 'get',
+        data: data,
+        loading: true
+    })
+}
+//获取活动信息
+export function getActivityById(data) {
+    return request({
+        url: 'wxActivity/getActivityById',
+        method: 'get',
+        data: data,
+
+        loading: true
+    })
+}
+//修改活动
+export function updateActivity(data) {
+    return request({
+        url: 'wxActivity/updateActivity',
+        method: 'post',
+        data: data,
+        requestBody: 'body',
+        loading: true
+    })
+}

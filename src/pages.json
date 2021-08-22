@@ -45,6 +45,12 @@
                     }
                 },
                 {
+                    "path": "addRules/index",
+                    "style": {
+                        "navigationBarTitleText": "选择规则"
+                    }
+                },
+                {
                     "path": "shopadd/index",
                     "style": {
                         "navigationBarTitleText": "新增店铺"

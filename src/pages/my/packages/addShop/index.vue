@@ -51,12 +51,12 @@
 					.shopList({
 						current: 1,
 						size: 10000,
-						isselect: 0,
+						isselect: 1,
 						keyword: this.key
 					})
 					.then(d => {
 						this.items = d.data.map(e => {
-							if (this.select.findIndex(c => c.shopid == e.shopid) >= 0) {
+							if (this.select && this.select.findIndex(c => c.shopid == e.shopid) >= 0) {
 								e.checked = true
 							} else {
 								e.checked = false
@@ -69,19 +69,21 @@
 			checkboxChange: function(e, i) {
 				let values = e.detail.value
 				let items = this.items.concat()
-				this.select=[]
-				this.items = items.map(e => {
-					if (values.includes(e.shopid + '')) {
-						e.checked = true
-						this.select.push(e)
+				this.select = []
+				this.items = items.map(i => {
+					if (values.indexOf(i.shopid + '') > -1) {
+						i.checked = true
+						if (this.select.findIndex(c => c.shopid == e.shopid) < 0) {
+							this.select.push(i)
+						}
 					} else {
-						e.checked = false
+						i.checked = false
 					}
-					return e
+					return i
 				})
 			},
 			submit() {
-				if (this.select == '') {
+				if (!this.select || this.select && this.select.length == 0) {
 					this.showToast({
 						title: '请选择要添加的店铺',
 						icon: 'none'

@@ -62,7 +62,7 @@
 		</evan-form>
 		<!-- <view class="pd-30 f28"> 提示：本次活动需抵扣20*30元=600元，<br /><text class="colorFF6E44">请保证余额充足。</text> </view> -->
 		<view class="fixed dflex bottom10 pdb-20 center">
-			<button class="btn bg-FF6E44 colorfff mgr-20 mgl-20 lh80 h80" @click="save()">保存</button>
+			<button class="btn bg-FF6E44 colorfff mgr-20 mgl-20 lh80 h80 w-calc0" @click="save()">保存</button>
 		</view>
 	</view>
 </template>

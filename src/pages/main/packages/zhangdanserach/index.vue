@@ -142,7 +142,7 @@ export default {
             this.$api.main
                 .getAccountBillList({
                     pindex: mescroll.num,
-                    psize: 10000,
+                    psize: 10,
                     dt1: this.d1,
                     dt2: this.d2,
                     shopid: this.nowShop.shopid

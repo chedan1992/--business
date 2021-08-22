@@ -8,15 +8,15 @@
             <view class="f26 pdb-30">订单时间：{{ listData.createtime }}</view>
             <view class="f26 pdb-30">外卖订单号：{{ listData.outerordercode }}</view>
             <view class="f26 pdb-30">外卖支付金额：{{ listData.sjpayprice }}元</view>
-            <view class="f26">外卖平台：美团</view>
+            <view class="f26">外卖平台：{{ listData.platform == 1 ? '美团' : '饿了么' }}</view>
         </view>
         <view class="pd-30 bg-white f30 bold mgt-20 borderb">
             活动信息
         </view>
         <view class="pd-30 bg-white active">
-            <view class="status">
+            <!-- <view class="status">
                 <image src="/static/order/feihuiyuan.png" class="img"></image>
-            </view>
+            </view> -->
             <view class="flex item">
                 <view class="w120 h120 pdr-20 flex-center">
                     <image :src="listData.shoplogo ? ossFormat(listData.shoplogo) : img" class="w120 h120"></image>
